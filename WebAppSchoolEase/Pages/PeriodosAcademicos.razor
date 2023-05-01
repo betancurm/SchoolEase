@@ -1,0 +1,62 @@
+﻿@page "/periodoacademico"
+@using WebAppSchoolEase.Models;
+@using WebAppSchoolEase.Services;
+@inject ILogger<PeriodosAcademicos> Logger;
+@inject IPeriodoAcademicoService periodoAcademicoService;
+<PageTitle>Periodos Academicos</PageTitle>
+
+
+@*
+    formulario para crear periodos academicos
+*@
+
+<h3>Crear Periodo Academico</h3>
+
+@if (periodosAcademicos?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var periodoAcademico in periodosAcademicos)
+            {
+                <tr>
+                    <td>@periodoAcademico.IdPeriodoAcademico</td>
+                    <td>@periodoAcademico.Nombre</td>
+                    <td>@periodoAcademico.FechaInicio</td>
+                    <td>@periodoAcademico.FechaFin</td>
+                    <td>@periodoAcademico.TipoPeriodo</td>
+                    <td>
+                        <button class="btn btn-primary">Editar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p><em>No hay periodos academicos registrados</em></p>
+}
+@code {
+    private List<PeriodoAcademico>? periodosAcademicos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        periodosAcademicos = await GetPeriodosAcademicos();
+
+    }
+
+    private async Task<List<PeriodoAcademico>> GetPeriodosAcademicos()
+    {
+        return await periodoAcademicoService.Get();
+    }
+}
