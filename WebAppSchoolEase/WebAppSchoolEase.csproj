@@ -4,9 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.Menu" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.15" PrivateAssets="all" />
   </ItemGroup>
@@ -14,6 +16,6 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\Styles\" />
   </ItemGroup>
-
 </Project>
