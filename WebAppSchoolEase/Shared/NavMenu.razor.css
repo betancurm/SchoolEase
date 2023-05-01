@@ -49,6 +49,14 @@
     background-color: rgba(255,255,255,0.1);
     color: white;
 }
+.dropdown-menu {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    right: -170px;
+    left: auto;
+    top: 0px;
+}
+
+
 
 @media (min-width: 641px) {
     .navbar-toggler {
