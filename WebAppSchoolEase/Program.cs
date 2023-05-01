@@ -7,5 +7,4 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 var apiSchoolEase = builder.Configuration.GetValue<string>("apiSchoolEase");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiSchoolEase) });
-
 await builder.Build().RunAsync();
