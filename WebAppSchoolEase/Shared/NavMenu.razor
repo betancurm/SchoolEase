@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+@*<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -22,18 +22,64 @@
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="fetchdata">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
+            </NavLink>     
         </div>
     </nav>
+
+</div>*@
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter" >
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata" >
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>     
+        </div>
+        <div class="nav-item dropdown px-3">
+            <a class="nav-link dropdown-toggle" href="#" id="configDropdown" role="button" @onclick="() => toggleConfigDropdown()" aria-haspopup="true" aria-expanded="@configDropdownIsOpen" >
+                <span class="oi oi-menu" aria-hidden="true"></span> Configuraciones 
+            </a>
+            <div class="dropdown-menu"  aria-labelledby=" configDropdown" style="@configDropdownStyle">
+                <a class="dropdown-item" href="periodoacademico" >Periodo Académico</a>
+                <a class="dropdown-item" href="#">Opción 2</a>
+                <a class="dropdown-item" href="#">Opción 3</a>
+            </div>
+        </div>
+    </nav>
+
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    bool configDropdownIsOpen = false;
+   
 
+    string configDropdownStyle => $"display: {(configDropdownIsOpen ? "block" : "none")};";
+
+    void toggleConfigDropdown()
+    {
+        configDropdownIsOpen = !configDropdownIsOpen;
+    }
+
+}
+
+
+
+@code {
+    private bool collapseNavMenu = true;
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
 }
