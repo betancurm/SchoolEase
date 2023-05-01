@@ -9,9 +9,44 @@
 @*
     formulario para crear periodos academicos
 *@
+<div>
+    <h3>Crear Periodo Academico</h3>
+    <EditForm Model="@periodoAcademico" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="nombre" class="col-form-label">Nombre</label>
+                <InputText id="nombre" class="form-control" @bind-Value="periodoAcademico.Nombre" required/>
+                <label for="fechaIncio" class="col-form-label">Fecha de Inicio</label>
+                <InputDate id="fechaIncio" class="form-control" @bind-Value="periodoAcademico.FechaInicio" required />
+                <label for="fechaFin" class="col-form-label">Fecha de Finalizaci&oacuten</label>
+                <InputDate id="fechaFin" class="form-control" @bind-Value="periodoAcademico.FechaFin" required />
+                <label for="tipoPeriodo" class="col-form-label">Tipo de Periodo</label>
+                <InputSelect id="tipoPeriodo" class="form-control" @bind-Value="periodoAcademico.TipoPeriodo">
+                    <option value="0">Calendario A</option>
+                    <option value="1">Calendario B</option>
+                </InputSelect>          
+  
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit" >Guardar</button>
+</EditForm>
+    <hr />
 
-<h3>Crear Periodo Academico</h3>
+</div>
+@code
+{
+    private PeriodoAcademico periodoAcademico = new();
+    private async Task Save()
+    {
+        await periodoAcademicoService.Add(periodoAcademico);
+        StateHasChanged();
+    }
 
+}
+@*
+tabla para mostrar periodos academicos
+*@
 @if (periodosAcademicos?.Count > 0)
 {
     <table class="table">
@@ -32,7 +67,15 @@
                     <td>@periodoAcademico.Nombre</td>
                     <td>@periodoAcademico.FechaInicio</td>
                     <td>@periodoAcademico.FechaFin</td>
-                    <td>@periodoAcademico.TipoPeriodo</td>
+                    @if (periodoAcademico.TipoPeriodo == 0)
+                        {
+                            <td>Calendario A</td>
+                        }
+                        else
+                        {
+                            <td>Calendario B</td>
+                        }
+    
                     <td>
                         <button class="btn btn-primary">Editar</button>
                         <button class="btn btn-danger">Eliminar</button>

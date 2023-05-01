@@ -6,7 +6,12 @@
         public string Nombre { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        public string TipoPeriodo { get; set; }
+        
+        public TipoPeriodo TipoPeriodo { get; set; }
 
+    }
+    public enum TipoPeriodo
+    {
+        CalendarioA, CalendarioB
     }
 }

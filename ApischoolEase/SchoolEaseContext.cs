@@ -17,7 +17,7 @@ namespace ApischoolEase
                 Nombre = "Periodo 2020",
                 FechaInicio = new DateTime(2020, 1, 13),
                 FechaFin = new DateTime(2020, 11, 20),
-                TipoPeriodo = "Calendario A"
+                TipoPeriodo = 0
             });
             modelBuilder.Entity<PeriodoAcademico>(periodoAcademico =>
             {
