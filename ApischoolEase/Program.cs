@@ -1,5 +1,4 @@
 using ApischoolEase;
-using ApischoolEase.Models;
 using ApischoolEase.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,14 +17,16 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDateOnlyTimeOnlyStringConverters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SchoolEaseContext>(p => p.UseInMemoryDatabase("SchooEaseDB"));
 //Aca se registra el servicio para que se pueda inyectar en el controlador
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
-
-
+builder.Services.AddScoped<INivelAcademicoService, NivelAcademicoService>();
+builder.Services.AddScoped<IJornadaAcademicaService, JornadaAcademicaService>();
+builder.Services.AddScoped<IGradoAcademicoService, GradoAcademicoService>();
 
 var app = builder.Build();
 app.UseCors("MyCorsPolicy");
