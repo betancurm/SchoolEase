@@ -4,8 +4,8 @@
     {
         public int IdJornadaAcademica { get; set; }
         public tipoJornadaAcademica TipoJornadaAcademica { get; set; }
-        public TimeOnly HoraInicio { get; set; }
-        public TimeOnly HoraFin { get; set; }
+        public string HoraInicio { get; set; }
+        public string HoraFin { get; set; }
         public int IdNivelAcademico { get; set; }
         public virtual NivelAcademico? NivelAcademico { get; set; }
     }

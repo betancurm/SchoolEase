@@ -7,26 +7,6 @@
     </div>
 </div>
 
-@*<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>     
-        </div>
-    </nav>
-
-</div>*@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu" >
     <nav class="flex-column">
         <div class="nav-item px-3">
@@ -71,7 +51,7 @@
 
             </div>
         </div>
-        *@
+        
         <div class="nav-item dropdown px-3">
             <a class="nav-link dropdown-toggle" id="configDropdown" role="button" @onclick="() => toggleConfigDropdown()" aria-haspopup="true" aria-expanded="@configDropdownIsOpen">
                 <span class="oi oi-menu" aria-hidden="true"></span> Configuraciones

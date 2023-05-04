@@ -19,6 +19,19 @@ namespace ApischoolEase.Controllers
             dbcontext.Database.EnsureCreated();
             return Ok();
         }
-        
+        [HttpGet]
+        [Route("updatedb")]
+        public IActionResult UpdateDatabase()
+        {
+            dbcontext.Database.MigrateAsync();
+            return Ok();
+        }
+        [HttpGet]
+        [Route("deletedb")]
+        public IActionResult DeleteDataBase()
+        {
+            dbcontext.Database.EnsureDeleted();
+            return Ok();
+        }
     }
 }
