@@ -76,7 +76,7 @@
 @code {
     bool configDropdownIsOpen = false;
     bool userDropdownIsOpen = false;
-
+    bool mainMenuIsOpen = false;
 
     string configDropdownStyle => $"display: {(configDropdownIsOpen ? "block" : "none")};";
     string userDropdownStyle => $"display: {(userDropdownIsOpen ? "block" : "none")};";
@@ -84,11 +84,14 @@
     void toggleConfigDropdown()
     {
         configDropdownIsOpen = !configDropdownIsOpen;
+        mainMenuIsOpen = false;
     }
     void toggleUserDropdown()
     {
         userDropdownIsOpen = !userDropdownIsOpen;
+        mainMenuIsOpen = false;
         configDropdownIsOpen = false;
+        
     }
 
 }
@@ -102,6 +105,20 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        if (configDropdownIsOpen)
+        {
+            userDropdownIsOpen = false;
+            mainMenuIsOpen = false;
+        }
+        if (userDropdownIsOpen)
+        {
+            configDropdownIsOpen = false;
+            mainMenuIsOpen = false;
+        }
+        mainMenuIsOpen = !mainMenuIsOpen;
+        
     }
+    //private string MainMenuCssClass => mainMenuIsOpen ? "open" : null;
+}
 
 }
