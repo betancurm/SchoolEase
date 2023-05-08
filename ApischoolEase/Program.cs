@@ -21,7 +21,12 @@ builder.Services.AddDateOnlyTimeOnlyStringConverters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<SchoolEaseContext>(p => p.UseInMemoryDatabase("SchooEaseDB"));
+//configuracion de la base de datos local, crear el string de conexion en el archivo appsettings.json
+builder.Services.AddSqlServer<SchoolEaseContext>("Data Source=WORKSTATION;Initial Catalog=SchoolEaseDb;user id=juan;pwd=808410");
+
+//Configuracion base de datos en memoria
+//builder.Services.AddDbContext<SchoolEaseContext>(p => p.UseInMemoryDatabase("SchooEaseDB"));
+
 //Aca se registra el servicio para que se pueda inyectar en el controlador
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
 builder.Services.AddScoped<INivelAcademicoService, NivelAcademicoService>();
@@ -31,11 +36,11 @@ builder.Services.AddScoped<IGradoAcademicoService, GradoAcademicoService>();
 var app = builder.Build();
 app.UseCors("MyCorsPolicy");
 
-app.MapGet("/dbconexion", async ([FromServices] SchoolEaseContext DbContext) =>
-{
-    DbContext.Database.EnsureCreated();
-    return Results.Ok("Base de datos en memoria " + DbContext.Database.IsInMemory());
-});
+//app.MapGet("/dbconexion", async ([FromServices] SchoolEaseContext DbContext) =>
+//{
+//    DbContext.Database.EnsureCreated();
+//    return Results.Ok("Base de datos en memoria " + DbContext.Database.IsInMemory());
+//});
 
 using (var scope = app.Services.CreateScope())
 {

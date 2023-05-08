@@ -6,5 +6,7 @@
         public string Descripcion { get; set; }
         public int IdNivelAcademico { get; set; }
         public NivelAcademico? NivelAcademico { get; set; }
+        
+        public virtual ICollection<Grupo> Grupos { get; set; }
     }
 }
