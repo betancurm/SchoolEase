@@ -23,11 +23,11 @@
                 <InputText id="Primerapellido" class="form-control" @bind-Value="estudiante.PrimerApellido" required />
                 <label for="Segundoapellido" class="col-form-label"> Segundo Apellido</label>
                 <InputText id="Segundoapellido" class="form-control" @bind-Value="estudiante.SegundoApellido" required />
-                <label for="direccion" class="col-form-label">Direcci&acuten de residencia</label>
+                <label for="direccion" class="col-form-label">Direcci&oacuten de residencia</label>
                 <InputText id="direccion" class="form-control" @bind-Value="estudiante.direccion" required />
-                <label for="telefono" class="col-form-label">Tel&acutefono</label>
+                <label for="telefono" class="col-form-label">Tel&eacutefono</label>
                 <InputText id="telefono" class="form-control" @bind-Value="estudiante.telefono" required />
-                <label for="correoElectronico" class="col-form-label">Correo Electr&acutenico</label>
+                <label for="correoElectronico" class="col-form-label">Correo Electr&oacutenico</label>
                 <InputText id="correoElectronico" class="form-control" @bind-Value="estudiante.correoElectronico" required />
                 <label for="celular" class="col-form-label">Celular</label>
                 <InputText id="celular" class="form-control" @bind-Value="estudiante.celular" required />
@@ -38,6 +38,8 @@
                     <option value="0">Cédula de Ciudadanía</option>
                     <option value="1">Tarjeta de identidad</option>
                 </InputSelect>
+                <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
+                <InputText id="numeroDocumento" class="form-control" @bind-Value="estudiante.NumeroDocumento" required />
                 <InputSelect id="sexo" class="form-control" @bind-Value="estudiante.sexo">
                     <option value="0">Femenino</option>
                     <option value="1">Masculino</option>

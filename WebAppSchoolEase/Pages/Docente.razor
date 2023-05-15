@@ -1,0 +1,72 @@
+﻿@page "/docente"
+@using WebAppSchoolEase.Models;
+@using WebAppSchoolEase.Services;
+@inject ILogger<Docente> Logger;
+@inject IDocenteService docenteService;
+@inject IJSRuntime JSRumtime;
+<PageTitle>docente</PageTitle>
+
+
+@*
+    formulario para gestionar docente
+*@
+<div>
+    <h3>Gestionar Docentes</h3>
+    <EditForm Model="@docente" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="Primernombre" class="col-form-label"> Primer Nombre</label>
+                <InputText id="Primernombre" class="form-control" @bind-Value="docente.PrimerNombre" required />
+                <label for="Segundonombre" class="col-form-label"> Segundo Nombre</label>
+                <InputText id="Segundonombre" class="form-control" @bind-Value="docente.SegundoNombre" required />
+                <label for="Primerapellido" class="col-form-label"> Primer Apellido</label>
+                <InputText id="Primerapellido" class="form-control" @bind-Value="docente.PrimerApellido" required />
+                <label for="Segundoapellido" class="col-form-label"> Segundo Apellido</label>
+                <InputText id="Segundoapellido" class="form-control" @bind-Value="docente.SegundoApellido" required />
+                <label for="direccion" class="col-form-label">Direcci&oacuten de residencia</label>
+                <InputText id="direccion" class="form-control" @bind-Value="docente.direccion" required />
+                <label for="telefono" class="col-form-label">Tel&eacutefono</label>
+                <InputText id="telefono" class="form-control" @bind-Value="docente.telefono" required />
+                <InputSelect id="nivelacademico" class="form-control" @bind-Value="docente.nivelAcademico">
+                    <option value="0">Pregrado</option>
+                    <option value="1">Posgrado</option>
+                </InputSelect>
+                <label for="profesion" class="col-form-label">Profesi&oacuten</label>
+                <InputText id="profesion" class="form-control" @bind-Value="docente.Profesion" required />
+                <label for="correoElectronico" class="col-form-label">Correo Electr&oacutenico</label>
+                <InputText id="correoElectronico" class="form-control" @bind-Value="docente.correoElectronico" required />
+                <label for="celular" class="col-form-label">Celular</label>
+                <InputText id="celular" class="form-control" @bind-Value="docente.celular" required />
+                <label for="fechaNacimiento" class="col-form-label">Fecha de Nacimiento</label>
+                <InputDate id="fechaFin" class="form-control" @bind-Value="docente.fechadenacimiento" required />
+                <label for="tipoDocumento" class="col-form-label">Tipo de Documento</label>
+                <InputSelect id="tipoDocumento" class="form-control" @bind-Value="docente.tipoDocumento">
+                    <option value="0">Cédula de Ciudadanía</option>
+                    <option value="1">Tarjeta de identidad</option>
+                </InputSelect>
+                <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
+                <InputText id="numeroDocumento" class="form-control" @bind-Value="docente.NumeroDocumento" required />
+                <InputSelect id="sexo" class="form-control" @bind-Value="docente.sexo">
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </InputSelect>
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+
+</div>
+
+@code {
+    private Models.Docente docente = new();
+
+    private async Task Save()
+    {
+        await docenteService.Add(docente);
+        StateHasChanged();
+    }
+}
+
+
