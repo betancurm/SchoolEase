@@ -1,12 +1,12 @@
-﻿using WebAppSchoolEase.Models;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
+using WebAppSchoolEase.Models;
 
 
 
 namespace WebAppSchoolEase.Services
 {
-    public class EstudianteService : IEstudianteService 
+    public class EstudianteService : IEstudianteService
     {
 
         private readonly HttpClient client;
@@ -25,7 +25,7 @@ namespace WebAppSchoolEase.Services
         }
         public async Task Add(Estudiante estudiante)
         {
-            var response = await client.PostAsync("api/periodoacademico", JsonContent.Create(estudiante));
+            var response = await client.PostAsync("api/estudiante", JsonContent.Create(estudiante));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

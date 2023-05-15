@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApischoolEase
 {
-    public class SchoolEaseContext :DbContext
+    public class SchoolEaseContext : DbContext
     {
         public DbSet<PeriodoAcademico> PeriodosAcademicos { get; set; }
         public DbSet<NivelAcademico> NivelesAcademicos { get; set; }
@@ -20,7 +20,7 @@ namespace ApischoolEase
         public DbSet<Acudiente> Acudientes { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
 
-        public SchoolEaseContext(DbContextOptions<SchoolEaseContext> options): base(options) { }
+        public SchoolEaseContext(DbContextOptions<SchoolEaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,8 +77,8 @@ namespace ApischoolEase
                 acudiente.Property(a => a.RelacionEstudiante).IsRequired();
                 acudiente.HasData(AcudienteInit);
             });
- 
-            
+
+
             //PlanEstudio
             List<PlanEstudio> PlanEstudioInit = new List<PlanEstudio>
             {
@@ -94,11 +94,11 @@ namespace ApischoolEase
                 planEstudio.Property(p => p.Porcentaje).IsRequired();
                 planEstudio.HasData(PlanEstudioInit);
             });
-            
+
             //Calificacion
             List<Calificacion> CalificacionInit = new List<Calificacion>
             {
-                
+
             };
             modelBuilder.Entity<Calificacion>(calificacion =>
             {
@@ -264,11 +264,11 @@ namespace ApischoolEase
                 asignatura.Property(a => a.NombreAsignatura).IsRequired().HasMaxLength(50);
                 asignatura.HasData(AsignaturaInit);
 
-            }); 
+            });
 
             //Grupo
             List<Grupo> GrupoInit = new List<Grupo>
-            { 
+            {
                 new Grupo() { IdGrupo = 1, Vacantes = 30, VacantesDisponibles = 0, VacantesOcupadas = 0, NombreGrupo = GradoSeccion.A },
                 new Grupo() { IdGrupo = 2, Vacantes = 30, VacantesDisponibles = 0, VacantesOcupadas = 0, NombreGrupo = GradoSeccion.B },
                 new Grupo() { IdGrupo = 3, Vacantes = 30, VacantesDisponibles = 0, VacantesOcupadas = 0, NombreGrupo = GradoSeccion.C },
@@ -341,14 +341,14 @@ namespace ApischoolEase
                 nivelAcademico.Property(n => n.IdPeriodoAcademico).IsRequired();
                 nivelAcademico.HasData(nivelAcademicoInit);
             });
-//-----------------------------------------------------------------------------------------------
+            //-----------------------------------------------------------------------------------------------
             //Periodo Academico
-            List<PeriodoAcademico> periodoAcademicoInit = new List<PeriodoAcademico> 
-            { 
+            List<PeriodoAcademico> periodoAcademicoInit = new List<PeriodoAcademico>
+            {
                 new PeriodoAcademico(){ IdPeriodoAcademico = 1, Nombre = "Periodo 2020", FechaInicio = new DateTime(2020, 1, 13), FechaFin = new DateTime(2020, 11, 20), TipoPeriodo = 0},
                 new PeriodoAcademico() {IdPeriodoAcademico= 2, Nombre = "Periodo 2021", FechaInicio = new DateTime(2021, 1, 13), FechaFin = new DateTime(2021, 11, 20), TipoPeriodo = 0}
             };
-            
+
             modelBuilder.Entity<PeriodoAcademico>(periodoAcademico =>
             {
                 periodoAcademico.ToTable("PeriodoAcademico");

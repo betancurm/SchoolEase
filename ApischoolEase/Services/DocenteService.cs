@@ -3,7 +3,7 @@
 namespace ApischoolEase.Services
 {
     public class DocenteService : IDocenteService
-    { 
+    {
         SchoolEaseContext context;
         public DocenteService(SchoolEaseContext dbcontext)
         {

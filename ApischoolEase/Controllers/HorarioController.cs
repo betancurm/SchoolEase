@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class HorarioController: ControllerBase
+    public class HorarioController : ControllerBase
     {
-         IHorarioService horarioService;
+        IHorarioService horarioService;
         public HorarioController(IHorarioService service)
         {
             horarioService = service;

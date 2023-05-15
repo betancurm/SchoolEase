@@ -20,8 +20,8 @@ namespace ApischoolEase.Services
         }
         public async Task Update(int id, Matricula matricula)
         {
-            var matriculaActual= context.Matriculas.Find(id);
-            if(matriculaActual != null)
+            var matriculaActual = context.Matriculas.Find(id);
+            if (matriculaActual != null)
             {
                 matriculaActual.FechaRegistro = matricula.FechaRegistro;
                 matriculaActual.InstitucionDeProcedencia = matricula.InstitucionDeProcedencia;
@@ -38,7 +38,7 @@ namespace ApischoolEase.Services
         public async Task Delete(int id)
         {
             var matricula = context.Matriculas.Find(id);
-            if(matricula != null)
+            if (matricula != null)
             {
                 context.Remove(matricula);
                 await context.SaveChangesAsync();
@@ -51,5 +51,5 @@ namespace ApischoolEase.Services
         Task Save(Matricula matricula);
         Task Update(int id, Matricula matricula);
         Task Delete(int id);
-    }   
+    }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class MatriculaController :ControllerBase
+    public class MatriculaController : ControllerBase
     {
         IMatriculaService matriculaService;
         public MatriculaController(IMatriculaService service)

@@ -15,6 +15,6 @@ namespace ApischoolEase.Models
         public int IdPlanEstudio { get; set; }
         [JsonIgnore]
         public PlanEstudio? PlanEstudio { get; set; }
- 
+
     }
 }

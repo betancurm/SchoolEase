@@ -5,7 +5,7 @@ namespace ApischoolEase.Models
     public class Horario
     {
         public int IdHorario { get; set; }
-        public DiaSemana DiaSemana{ get; set; }
+        public DiaSemana DiaSemana { get; set; }
         public string HoraInicio { get; set; }
         public string HoraFin { get; set; }
         [JsonIgnore]

@@ -24,7 +24,7 @@ namespace ApischoolEase.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id ,[FromBody] PeriodoAcademico periodoAcademico)
+        public IActionResult Put(int id, [FromBody] PeriodoAcademico periodoAcademico)
         {
             periodoAcademicoService.Update(id, periodoAcademico);
             return Ok();

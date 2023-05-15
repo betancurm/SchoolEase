@@ -9,7 +9,7 @@ namespace ApischoolEase.Models
         [JsonIgnore]
         public int VacantesDisponibles { get; set; }
         [JsonIgnore]
-        public int VacantesOcupadas { get; set; } 
+        public int VacantesOcupadas { get; set; }
         public GradoSeccion NombreGrupo { get; set; }
         [JsonIgnore]
         public virtual ICollection<Asignacion>? Asignaciones { get; set; }
