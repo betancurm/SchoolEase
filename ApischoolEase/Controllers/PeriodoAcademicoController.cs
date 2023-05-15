@@ -1,5 +1,4 @@
-﻿
-using ApischoolEase.Models;
+﻿using ApischoolEase.Models;
 using ApischoolEase.Services;
 using Microsoft.AspNetCore.Mvc;
 

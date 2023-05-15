@@ -32,9 +32,18 @@ builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
 builder.Services.AddScoped<INivelAcademicoService, NivelAcademicoService>();
 builder.Services.AddScoped<IJornadaAcademicaService, JornadaAcademicaService>();
 builder.Services.AddScoped<IGradoAcademicoService, GradoAcademicoService>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
+builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
+builder.Services.AddScoped<IDocenteService, DocenteService>();
+builder.Services.AddScoped<IAsignacionService, AsignacionService>();
+builder.Services.AddScoped<IHorarioService, HorarioService>();
+builder.Services.AddScoped<IEstudianteService, EstudianteService>();
+builder.Services.AddScoped<ICalificacionService, CalificacionService>();
+builder.Services.AddScoped<IPlanEstudioService, PlanEstudioService>();
+builder.Services.AddScoped<IAcudienteService, AcudienteService>();
+builder.Services.AddScoped<IMatriculaService, MatriculaService>();
 
 var app = builder.Build();
-app.UseCors("MyCorsPolicy");
 
 app.MapGet("/dbconexion", async ([FromServices] SchoolEaseContext DbContext) =>
 {
@@ -66,11 +75,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyCorsPolicy");
 //app.UseCors(); para adminsitrar las seguridad de la API
 app.UseAuthorization();
 //Welcome Page sirve para crear la pagina de inicio de la API
 //app.UseWelcomePage();
 //app.UseTimeMiddleware();
+app.UseDeveloperExceptionPage();
 
 app.MapControllers();
 
