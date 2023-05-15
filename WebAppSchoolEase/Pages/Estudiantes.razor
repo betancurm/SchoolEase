@@ -1,0 +1,62 @@
+﻿@page "/estudiante"
+@using WebAppSchoolEase.Models;
+@using WebAppSchoolEase.Services;
+@inject IJSRuntime JSRumtime;
+@inject ILogger<Estudiantes> Logger;
+@inject IEstudianteService EstudianteService;
+<PageTitle>Estudiantes</PageTitle>
+
+
+@*
+    formulario para crear periodos academicos
+*@
+<div>
+    <h3>Gestionar Estudiantes</h3>
+    <EditForm Model="@estudiante" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="Primernombre" class="col-form-label"> Primer Nombre</label>
+                <InputText id="Primernombre" class="form-control" @bind-Value="estudiante.PrimerNombre" required />
+                <label for="Segundonombre" class="col-form-label"> Segundo Nombre</label>
+                <InputText id="Segundonombre" class="form-control" @bind-Value="estudiante.SegundoNombre" required />
+                <label for="Primerapellido" class="col-form-label"> Primer Apellido</label>
+                <InputText id="Primerapellido" class="form-control" @bind-Value="estudiante.PrimerApellido" required />
+                <label for="Segundoapellido" class="col-form-label"> Segundo Apellido</label>
+                <InputText id="Segundoapellido" class="form-control" @bind-Value="estudiante.SegundoApellido" required />
+                <label for="direccion" class="col-form-label">Direcci&acuten de residencia</label>
+                <InputText id="direccion" class="form-control" @bind-Value="estudiante.direccion" required />
+                <label for="telefono" class="col-form-label">Tel&acutefono</label>
+                <InputText id="telefono" class="form-control" @bind-Value="estudiante.telefono" required />
+                <label for="correoElectronico" class="col-form-label">Correo Electr&acutenico</label>
+                <InputText id="correoElectronico" class="form-control" @bind-Value="estudiante.correoElectronico" required />
+                <label for="celular" class="col-form-label">Celular</label>
+                <InputText id="celular" class="form-control" @bind-Value="estudiante.celular" required />
+                <label for="fechaNacimiento" class="col-form-label">Fecha de Nacimiento</label>
+                <InputDate id="fechaFin" class="form-control" @bind-Value="estudiante.fechadenacimiento" required />
+                <label for="tipoDocumento" class="col-form-label">Tipo de Documento</label>
+                <InputSelect id="tipoDocumento" class="form-control" @bind-Value="estudiante.tipoDocumento">
+                    <option value="0">Cédula de Ciudadanía</option>
+                    <option value="1">Tarjeta de identidad</option>
+                </InputSelect>
+                <InputSelect id="sexo" class="form-control" @bind-Value="estudiante.sexo">
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </InputSelect>
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+
+</div>
+
+ @code{
+    private Estudiante estudiante = new();
+    private async Task Save()
+    {
+        await EstudianteService.Add(estudiante);
+        StateHasChanged();
+    }
+ }
+ 
