@@ -20,8 +20,8 @@ namespace ApischoolEase.Services
         }
         public async Task Update(int id, PeriodoAcademico periodoAcademico)
         {
-            var periodoAcademicoActual= context.PeriodosAcademicos.Find(id);
-            if(periodoAcademicoActual != null)
+            var periodoAcademicoActual = context.PeriodosAcademicos.Find(id);
+            if (periodoAcademicoActual != null)
             {
                 periodoAcademicoActual.Nombre = periodoAcademico.Nombre;
                 periodoAcademicoActual.FechaInicio = periodoAcademico.FechaInicio;
@@ -31,7 +31,7 @@ namespace ApischoolEase.Services
                 await context.SaveChangesAsync();
             }
         }
-        public async Task Delete (int id)
+        public async Task Delete(int id)
         {
             var periodoAcademicoActual = context.PeriodosAcademicos.Find(id);
             if (periodoAcademicoActual != null)
@@ -43,7 +43,7 @@ namespace ApischoolEase.Services
     }
     public interface IPeriodoAcademicoService
     {
-        IEnumerable<PeriodoAcademico> Get ();
+        IEnumerable<PeriodoAcademico> Get();
         Task Save(PeriodoAcademico periodoAcademico);
         Task Update(int id, PeriodoAcademico periodoAcademico);
         Task Delete(int id);

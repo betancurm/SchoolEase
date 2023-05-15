@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class DocenteController: ControllerBase
+    public class DocenteController : ControllerBase
     {
         IDocenteService DocenteService;
         public DocenteController(IDocenteService service)

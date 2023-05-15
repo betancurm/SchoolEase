@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class PlanEstudioController :ControllerBase
+    public class PlanEstudioController : ControllerBase
     {
         IPlanEstudioService planEstudioService;
         public PlanEstudioController(IPlanEstudioService service)

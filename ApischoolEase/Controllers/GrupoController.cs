@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class GrupoController: ControllerBase
+    public class GrupoController : ControllerBase
     {
         IGrupoService grupoService;
         public GrupoController(IGrupoService service)

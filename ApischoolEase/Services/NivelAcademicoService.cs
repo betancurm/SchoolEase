@@ -1,14 +1,13 @@
 ﻿using ApischoolEase.Models;
-using System.Threading;
 
 namespace ApischoolEase.Services
 {
-    public class NivelAcademicoService: INivelAcademicoService
+    public class NivelAcademicoService : INivelAcademicoService
     {
         SchoolEaseContext context;
         public NivelAcademicoService(SchoolEaseContext dbcontext)
         {
-             context= dbcontext;
+            context = dbcontext;
         }
         public IEnumerable<NivelAcademico> Get()
         {
@@ -21,8 +20,8 @@ namespace ApischoolEase.Services
         }
         public async Task Update(int id, NivelAcademico nivelAcademico)
         {
-         var NivelAcademicoActual = context.NivelesAcademicos.Find(id);
-            if (NivelAcademicoActual!=null)
+            var NivelAcademicoActual = context.NivelesAcademicos.Find(id);
+            if (NivelAcademicoActual != null)
             {
                 NivelAcademicoActual.IdPeriodoAcademico = nivelAcademico.IdPeriodoAcademico;
                 NivelAcademicoActual.TipoNivelAcademico = nivelAcademico.TipoNivelAcademico;
@@ -33,7 +32,7 @@ namespace ApischoolEase.Services
         public async Task Delete(int id)
         {
             var NivelAcademicoActual = context.NivelesAcademicos.Find(id);
-            if (NivelAcademicoActual!=null)
+            if (NivelAcademicoActual != null)
             {
                 context.Remove(NivelAcademicoActual);
                 await context.SaveChangesAsync();

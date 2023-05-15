@@ -23,7 +23,7 @@ namespace ApischoolEase.Controllers
             asignaturaService.Save(asignatura);
             return Ok();
         }
-        [HttpPut("{id}")]  
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Asignatura asignatura)
         {
             asignaturaService.Update(id, asignatura);

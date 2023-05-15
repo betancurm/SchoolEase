@@ -1,6 +1,6 @@
-﻿using WebAppSchoolEase.Models;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
+using WebAppSchoolEase.Models;
 
 namespace WebAppSchoolEase.Services
 {
@@ -11,9 +11,9 @@ namespace WebAppSchoolEase.Services
         private readonly JsonSerializerOptions options;
         public PeriodoAcademicoService(HttpClient httpClient)
         {
-            
+
             client = httpClient;
-            options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true};
+            options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<List<PeriodoAcademico>?> Get()
@@ -25,7 +25,7 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
             return JsonSerializer.Deserialize<List<PeriodoAcademico>>(content, options);
-            
+
         }
         public async Task Add(PeriodoAcademico periodoAcademico)
         {

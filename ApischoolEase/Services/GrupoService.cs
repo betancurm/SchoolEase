@@ -2,13 +2,13 @@
 
 namespace ApischoolEase.Services
 {
-    public class GrupoService :IGrupoService
+    public class GrupoService : IGrupoService
     {
-       SchoolEaseContext context;
-         public GrupoService(SchoolEaseContext dbcontext)
+        SchoolEaseContext context;
+        public GrupoService(SchoolEaseContext dbcontext)
         {
-              context = dbcontext;
-         }
+            context = dbcontext;
+        }
 
         public IEnumerable<Grupo> Get()
         {

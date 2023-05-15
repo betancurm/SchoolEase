@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class CreateDataBaseController: ControllerBase
+    public class CreateDataBaseController : ControllerBase
     {
         SchoolEaseContext dbcontext;
         public CreateDataBaseController(SchoolEaseContext context)

@@ -2,7 +2,7 @@
 
 namespace ApischoolEase.Models
 {
-    public class Estudiante :Persona
+    public class Estudiante : Persona
     {
         [JsonIgnore]
         public virtual ICollection<Calificacion>? Calificaciones { get; set; }

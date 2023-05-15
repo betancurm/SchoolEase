@@ -6,7 +6,7 @@ namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
 
-    public class AsignacionController :ControllerBase
+    public class AsignacionController : ControllerBase
     {
         IAsignacionService asignacionService;
         public AsignacionController(IAsignacionService service)
@@ -24,7 +24,7 @@ namespace ApischoolEase.Controllers
             asignacionService.Save(asignacion);
             return Ok();
         }
-        [HttpPut("{id}")]  
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Asignacion asignacion)
         {
             asignacionService.Update(id, asignacion);
