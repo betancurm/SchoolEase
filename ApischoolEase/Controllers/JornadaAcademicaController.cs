@@ -34,6 +34,6 @@ namespace ApischoolEase.Controllers
         {
             jornadaAcademicaService.Delete(id);
             return Ok();
-        }   
+        }
     }
 }

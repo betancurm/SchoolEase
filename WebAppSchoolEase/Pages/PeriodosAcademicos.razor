@@ -3,6 +3,7 @@
 @using WebAppSchoolEase.Services;
 @inject ILogger<PeriodosAcademicos> Logger;
 @inject IPeriodoAcademicoService periodoAcademicoService;
+@inject IJSRuntime JSRumtime;
 <PageTitle>Periodos Academicos</PageTitle>
 
 
@@ -36,12 +37,15 @@
 @code
 {
     private PeriodoAcademico periodoAcademico = new();
+   
+
+
     private async Task Save()
     {
         await periodoAcademicoService.Add(periodoAcademico);
         StateHasChanged();
     }
-
+   
 }
 @*
 tabla para mostrar periodos academicos
@@ -61,12 +65,13 @@ tabla para mostrar periodos academicos
         <tbody>
             @foreach (var periodoAcademico in periodosAcademicos)
             {
+               
                 <tr>
                     <td>@periodoAcademico.IdPeriodoAcademico</td>
                     <td>@periodoAcademico.Nombre</td>
                     <td>@periodoAcademico.FechaInicio</td>
                     <td>@periodoAcademico.FechaFin</td>
-                    @if (periodoAcademico.TipoPeriodo == 0)
+                    @if (periodoAcademico.TipoPeriodo.Equals (0))
                         {
                             <td>Calendario A</td>
                         }
@@ -76,20 +81,69 @@ tabla para mostrar periodos academicos
                         }
     
                     <td>
-                        <button class="btn btn-primary">Editar</button>
-                        <button class="btn btn-danger">Eliminar</button>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(periodoAcademico)">Editar</button>
+
+                        <button class="btn btn-danger" @onclick="() => Delete(periodoAcademico.IdPeriodoAcademico)">Eliminar</button>
                     </td>
                 </tr>
             }
+
+          
         </tbody>
     </table>
+     <EditForm Model="@editPeriodo" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <InputText id="nombre" class="form-control" @bind-Value="editPeriodo.Nombre" />
+            <ValidationMessage For="@(() => editPeriodo.Nombre)" />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaInicio">Fecha Inicio:</label>
+            <InputDate id="fechaInicio" class="form-control" @bind-Value="editPeriodo.FechaInicio" />
+            <ValidationMessage For="@(() => editPeriodo.FechaInicio)" />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaFin">Fecha Fin:</label>
+            <InputDate id="fechaFin" class="form-control" @bind-Value="editPeriodo.FechaFin" />
+            <ValidationMessage For="@(() => editPeriodo.FechaFin)" />
+        </div>
+
+        <div class="form-group">
+            <label for="tipoPeriodo">Tipo Periodo:</label>
+
+                    
+                <select id="tipoPeriodo" class="form-control" @bind="editPeriodo.TipoPeriodo">
+
+                <option value="0">Calendario A</option>
+                <option value="1">Calendario B</option>
+            </select>
+            <ValidationMessage For="@(() => editPeriodo.TipoPeriodo)" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
+        </div>
+    </EditForm>
+
 }
+
 else
 {
     <p><em>No hay periodos academicos registrados</em></p>
 }
+
+
 @code {
     private List<PeriodoAcademico>? periodosAcademicos;
+    private bool showEditForm = false;
+    private PeriodoAcademico PeriodoAcademicoEdit = new PeriodoAcademico(); // Variable para almacenar la información de la fila que se está editando
+    public PeriodoAcademico? editPeriodo;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,5 +154,35 @@ else
     private async Task<List<PeriodoAcademico>> GetPeriodosAcademicos()
     {
         return await periodoAcademicoService.Get();
+    }
+    
+
+  
+
+    private async Task Delete(int id)
+    {
+        if(await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el período académico")){}
+            
+        await periodoAcademicoService.Delete(id);
+            await GetPeriodosAcademicos();
+    }
+    private void ShowEditForm(PeriodoAcademico periodoAcademico)
+    {
+        editPeriodo = periodoAcademico;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await periodoAcademicoService.Update(PeriodoAcademicoEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
+        showEditForm = false; // Oculta el formulario de edición
+        await GetPeriodosAcademicos(); // Actualiza la lista de períodos académicos
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
     }
 }

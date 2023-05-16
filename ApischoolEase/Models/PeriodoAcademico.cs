@@ -8,7 +8,7 @@ namespace ApischoolEase.Models
         public string Nombre { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        
+
         public TipoPeriodo TipoPeriodo { get; set; }
         [JsonIgnore]
         public virtual ICollection<NivelAcademico>? NivelesAcademicos { get; set; }

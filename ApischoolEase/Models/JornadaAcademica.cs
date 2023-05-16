@@ -1,4 +1,6 @@
-﻿namespace ApischoolEase.Models
+﻿using System.Text.Json.Serialization;
+
+namespace ApischoolEase.Models
 {
     public class JornadaAcademica
     {
@@ -7,6 +9,7 @@
         public string HoraInicio { get; set; }
         public string HoraFin { get; set; }
         public int IdNivelAcademico { get; set; }
+        [JsonIgnore]
         public virtual NivelAcademico? NivelAcademico { get; set; }
     }
     public enum tipoJornadaAcademica

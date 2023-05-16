@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApischoolEase.Controllers
 {
     [Route("api/[controller]")]
-    public class NivelAcademicoController: ControllerBase
+    public class NivelAcademicoController : ControllerBase
     {
         INivelAcademicoService nivelAcademicoService;
-        public NivelAcademicoController(INivelAcademicoService service) 
+        public NivelAcademicoController(INivelAcademicoService service)
         {
             nivelAcademicoService = service;
         }

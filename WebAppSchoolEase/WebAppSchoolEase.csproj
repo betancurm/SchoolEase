@@ -8,18 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Horarios.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Cors" Version="5.2.9" />
     <PackageReference Include="Blazored.Menu" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.15" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\Horarios.razor" />
   </ItemGroup>
 
 </Project>
