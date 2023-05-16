@@ -14,7 +14,7 @@
     <h3>Gestionar Estudiantes</h3>
     <EditForm Model="@estudiante" OnSubmit="@Save">
         <div class="row">
-            <div class="col-8 form-group">
+            <div class="col-4 form-group">
                 <label for="Primernombre" class="col-form-label"> Primer Nombre</label>
                 <InputText id="Primernombre" class="form-control" @bind-Value="estudiante.PrimerNombre" required />
                 <label for="Segundonombre" class="col-form-label"> Segundo Nombre</label>
@@ -23,6 +23,9 @@
                 <InputText id="Primerapellido" class="form-control" @bind-Value="estudiante.PrimerApellido" required />
                 <label for="Segundoapellido" class="col-form-label"> Segundo Apellido</label>
                 <InputText id="Segundoapellido" class="form-control" @bind-Value="estudiante.SegundoApellido" required />
+            </div>
+            <div class="col-4 form-group">
+
                 <label for="direccion" class="col-form-label">Direcci&oacuten de residencia</label>
                 <InputText id="direccion" class="form-control" @bind-Value="estudiante.direccion" required />
                 <label for="telefono" class="col-form-label">Tel&eacutefono</label>
@@ -31,18 +34,25 @@
                 <InputText id="correoElectronico" class="form-control" @bind-Value="estudiante.correoElectronico" required />
                 <label for="celular" class="col-form-label">Celular</label>
                 <InputText id="celular" class="form-control" @bind-Value="estudiante.celular" required />
+            </div>
+            <div class="col-4 form-group">
+
                 <label for="fechaNacimiento" class="col-form-label">Fecha de Nacimiento</label>
                 <InputDate id="fechaFin" class="form-control" @bind-Value="estudiante.fechadenacimiento" required />
                 <label for="tipoDocumento" class="col-form-label">Tipo de Documento</label>
                 <InputSelect id="tipoDocumento" class="form-control" @bind-Value="estudiante.tipoDocumento">
-                    <option value="0">Cédula de Ciudadanía</option>
-                    <option value="1">Tarjeta de identidad</option>
+                    <option value="0">Seleccione su tipo de documento</option>
+                    <option value="1">Cédula de Ciudadanía</option>
+                    <option value="2">Tarjeta de identidad</option>
                 </InputSelect>
                 <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
                 <InputText id="numeroDocumento" class="form-control" @bind-Value="estudiante.NumeroDocumento" required />
+                <label for="sexo" class="col-form-label">Sexo</label>
+
                 <InputSelect id="sexo" class="form-control" @bind-Value="estudiante.sexo">
-                    <option value="0">Femenino</option>
-                    <option value="1">Masculino</option>
+                    <option value="0">Seleccione su sexo</option>
+                    <option value="1">Femenino</option>
+                    <option value="2">Masculino</option>
                 </InputSelect>
             </div>
         </div>
@@ -62,4 +72,87 @@
         StateHasChanged();
     }
  }
- 
+ @*
+tabla para mostrar periodos academicos
+*@
+@if (estudiantes?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var estudiante in estudiantes)
+            {
+
+                <tr>
+                    <td>@estudiante.PrimerNombre</td>
+                    <td>@estudiante.SegundoNombre</td>
+                    <td>@estudiante.PrimerApellido</td>
+                    <td>@estudiante.SegundoApellido</td>
+                    <td>@estudiante.direccion</td>
+                    <td>@estudiante.telefono</td>
+                    <td>@estudiante.correoElectronico</td>
+                    <td>@estudiante.celular</td>
+                    <td>@estudiante.NumeroDocumento</td>
+                    <td>@estudiante.SegundoNombre</td>
+                    @if (estudiante.tipoDocumento.Equals(0))
+                    {
+                        <td>Cédula</td>
+                    }
+                    else
+                    {
+                        <td>Tarjeta de identidad</td>
+                    }
+                    @if (estudiante.sexo.Equals(0))
+                    {
+                        <td>Femenino</td>
+                    }
+                    else
+                    {
+                        <td>Masculino</td>
+                    }
+
+                    <td>
+                        <button class="btn btn-primary" @*@onclick="() => ShowEditForm(estudiante)" *@>Editar</button>
+
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+
+else
+{
+    <p><em>No hay estudiantes registrados</em></p>
+}
+
+
+@code {
+    private List<Estudiante>? estudiantes;
+    private bool showEditForm = false;
+    private Estudiante estudianteEdit = new Estudiante(); // Variable para almacenar la información de la fila que se está editando
+    public Estudiante? editestudiante;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        estudiantes = await Getestudiante();
+
+    }
+
+    private async Task<List<Estudiante>> Getestudiante()
+    {
+        return await EstudianteService.Get();
+    }
+}

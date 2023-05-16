@@ -35,9 +35,9 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
         }
-        public async Task Delete(int id)
+        public async Task Delete(int idPersona)
         {
-            var response = await client.DeleteAsync($"api/docente/{id}");
+            var response = await client.DeleteAsync($"api/docente/{idPersona}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -61,7 +61,7 @@ namespace WebAppSchoolEase.Services
     {
         Task<List<Docente>?> Get();
         Task Add(Docente docente);
-        Task Delete(int id);
+        Task Delete(int idPersona);
         Task Update(Docente docente);
     }
 }

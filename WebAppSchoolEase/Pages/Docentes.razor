@@ -134,9 +134,9 @@ tabla para mostrar periodos academicos
                     }
 
                     <td>
-                        <button class="btn btn-primary" @onclick="() => ShowEditForm(docente)">Editar</button>
+                        <button class="btn btn-primary" @*@onclick="() => ShowEditForm(docente)"*@>Editar</button>
 
-                        <button class="btn btn-danger" @onclick="() => Delete(docente.Id)">Eliminar</button>
+                        <button class="btn btn-danger" >Eliminar</button>
                     </td>
                 </tr>
             }
@@ -144,7 +144,7 @@ tabla para mostrar periodos academicos
 
         </tbody>
     </table>
-    <EditForm Model="@editDocente" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+    @*<EditForm Model="@editDocente" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
         <ValidationSummary />
 
         <div class="form-group">
@@ -227,7 +227,7 @@ tabla para mostrar periodos academicos
             <button type="submit" class="btn btn-primary mr-2">Guardar</button>
             <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
         </div>
-    </EditForm>
+    </EditForm>*@
 
 }
 
@@ -258,32 +258,34 @@ else
 
 
 
-    private async Task Delete(int id)
-    {
-        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el período académico")) { }
+    //private async Task Delete(int id)
+    //{
+    //    if (await JSRuntime.InvokeAsync<bool>("confirm","Está seguro que desea eliminar el docente del sistema"))
+    //    {
+    //        await docenteService.Delete(id);
+    //        await GetDocente();
+    //    }
+    //}
+    //private void ShowEditForm(Docente docente)
+    //{
+    //    editDocente = docente;
+    //    showEditForm = true;
+    //}
 
-        await docenteService.Delete(id);
-        await GetDocente();
-    }
-    private void ShowEditForm(Docente docente)
-    {
-        editDocente = docente;
-        showEditForm = true;
-    }
 
+    //private async Task SaveEditForm()
+    //{
+    //    await docenteService.Update(DocenteEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
+    //    StateHasChanged();
+    //    showEditForm = false; // Oculta el formulario de edición
+    //    await GetDocente(); // Actualiza la lista de períodos académicos
 
-    private async Task SaveEditForm()
-    {
-        await docenteService.Update(DocenteEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
-        showEditForm = false; // Oculta el formulario de edición
-        await GetDocente(); // Actualiza la lista de períodos académicos
+    //}
 
-    }
-
-    private void CloseEditForm()
-    {
-        showEditForm = false; // Oculta el formulario de edición
-    }
+    //private void CloseEditForm()
+    //{
+    //    showEditForm = false; // Oculta el formulario de edición
+    //}
 }
 
 

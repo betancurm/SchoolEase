@@ -14,7 +14,7 @@
     <h3>Gestionar Acudientes</h3>
     <EditForm Model="@acudiente" OnSubmit="@Save">
         <div class="row">
-            <div class="col-8 form-group">
+            <div class="col-4 form-group">
                 <label for="Primernombre" class="col-form-label"> Primer Nombre</label>
                 <InputText id="Primernombre" class="form-control" @bind-Value="acudiente.PrimerNombre" required />
                 <label for="Segundonombre" class="col-form-label"> Segundo Nombre</label>
@@ -23,18 +23,34 @@
                 <InputText id="Primerapellido" class="form-control" @bind-Value="acudiente.PrimerApellido" required />
                 <label for="Segundoapellido" class="col-form-label"> Segundo Apellido</label>
                 <InputText id="Segundoapellido" class="form-control" @bind-Value="acudiente.SegundoApellido" required />
+                <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
+                <InputText id="numeroDocumento" class="form-control" @bind-Value="acudiente.NumeroDocumento" required />
+                </div>
+            <div class="col-4 form-group">
+
                 <label for="direccion" class="col-form-label">Direcci&oacuten de residencia</label>
                 <InputText id="direccion" class="form-control" @bind-Value="acudiente.direccion" required />
                 <label for="telefono" class="col-form-label">Tel&eacutefono</label>
                 <InputText id="telefono" class="form-control" @bind-Value="acudiente.telefono" required />
+                <label for="estadocivil" class="col-form-label">Estado civil</label>
                  <InputSelect id="estadocivil" class="form-control" @bind-Value="acudiente.estadoCivil">
                     <option value="0">Soltero</option>
                     <option value="1">Casado</option>
                 </InputSelect>
-                <InputSelect id="relacionEstudiante" class="form-control" @bind-Value="acudiente.relacionEstudiante">
+                <label for="relacionacudiente" class="col-form-label">Relación con estudiante</label>
+
+                <InputSelect id="relacionacudiente" class="form-control" @bind-Value="acudiente.relacionEstudiante">
                     <option value="0">Papá</option>
                     <option value="1">Tio</option>
                 </InputSelect>
+                <label for="sexo" class="col-form-label">Sexo</label>
+                <InputSelect id="sexo" class="form-control" @bind-Value="acudiente.sexo">
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </InputSelect>
+                </div>
+            <div class="col-4 form-group">
+
                 <label for="correoElectronico" class="col-form-label">Correo Electr&oacutenico</label>
                 <InputText id="correoElectronico" class="form-control" @bind-Value="acudiente.correoElectronico" required />
                 <label for="celular" class="col-form-label">Celular</label>
@@ -46,16 +62,12 @@
                     <option value="0">Cédula de Ciudadanía</option>
                     <option value="1">Tarjeta de identidad</option>
                 </InputSelect>
-                <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
-                <InputText id="numeroDocumento" class="form-control" @bind-Value="acudiente.NumeroDocumento" required />
-                <InputSelect id="sexo" class="form-control" @bind-Value="acudiente.sexo">
-                    <option value="0">Femenino</option>
-                    <option value="1">Masculino</option>
-                </InputSelect>
-            </div>
+                <hr />
+                <button class="btn btn-primary" type="submit">Guardar</button>
+             </div>
+            
         </div>
-        <hr />
-        <button class="btn btn-primary" type="submit">Guardar</button>
+      
     </EditForm>
     <hr />
 
@@ -70,4 +82,87 @@
         StateHasChanged();
     }
  }
+@*
+tabla para mostrar periodos academicos
+*@
+@if (acudientes?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acudiente in acudientes)
+            {
 
+                <tr>
+                    <td>@acudiente.PrimerNombre</td>
+                    <td>@acudiente.SegundoNombre</td>
+                    <td>@acudiente.PrimerApellido</td>
+                    <td>@acudiente.SegundoApellido</td>
+                    <td>@acudiente.direccion</td>
+                    <td>@acudiente.telefono</td>
+                    <td>@acudiente.correoElectronico</td>
+                    <td>@acudiente.celular</td>
+                    <td>@acudiente.NumeroDocumento</td>
+                    <td>@acudiente.SegundoNombre</td>
+                    @if (acudiente.tipoDocumento.Equals(0))
+                    {
+                        <td>Cédula</td>
+                    }
+                    else
+                    {
+                        <td>Tarjeta de identidad</td>
+                    }
+                    @if (acudiente.sexo.Equals(0))
+                    {
+                        <td>Femenino</td>
+                    }
+                    else
+                    {
+                        <td>Masculino</td>
+                    }
+
+                    <td>
+                        <button class="btn btn-primary" @*@onclick="() => ShowEditForm(acudiente)" *@>Editar</button>
+
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+
+else
+{
+    <p><em>No hay acudientes registrados</em></p>
+}
+
+
+@code {
+    private List<Acudiente>? acudientes;
+    private bool showEditForm = false;
+    private Acudiente acudienteEdit = new Acudiente(); // Variable para almacenar la información de la fila que se está editando
+    public Acudiente? editacudiente;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        acudientes = await Getacudiente();
+
+    }
+
+    private async Task<List<Acudiente>> Getacudiente()
+    {
+        return await AcudienteService.Get();
+    }
+}
