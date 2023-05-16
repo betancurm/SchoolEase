@@ -2,36 +2,34 @@
 using System.Text.Json;
 using WebAppSchoolEase.Models;
 
-
-
 namespace WebAppSchoolEase.Services
 {
-    public class EstudianteService : IEstudianteService
+    public class AcudienteService: IAcudienteService
     {
-
         private readonly HttpClient client;
 
         private readonly JsonSerializerOptions options;
-        public EstudianteService(HttpClient httpClient)
+
+        public AcudienteService(HttpClient httpClient)
         {
 
             client = httpClient;
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
-        public async Task<List<Estudiante>?> Get()
+        public async Task<List<Acudiente>?> Get()
         {
-            var response = await client.GetAsync("api/estudiante");
+            var response = await client.GetAsync("api/acudiente");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new ApplicationException(content);
             }
-            return JsonSerializer.Deserialize<List<Estudiante>>(content, options);
+            return JsonSerializer.Deserialize<List<Acudiente>>(content, options);
 
         }
-        public async Task Add(Estudiante estudiante)
+        public async Task Add(Acudiente acudiente)
         {
-            var response = await client.PostAsync("api/estudiante", JsonContent.Create(estudiante));
+            var response = await client.PostAsync("api/acudiente", JsonContent.Create(acudiente));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -42,10 +40,12 @@ namespace WebAppSchoolEase.Services
 
 
 
-    public interface IEstudianteService
+    public interface IAcudienteService
     {
-        Task<List<Estudiante>?> Get();
-        Task Add(Estudiante estudiante);
+        Task<List<Acudiente>?> Get();
+        Task Add(Acudiente acudiente);
 
     }
+
 }
+
