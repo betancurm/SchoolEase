@@ -9,6 +9,12 @@ namespace WebAppSchoolEase.Services
         private readonly HttpClient client;
 
         private readonly JsonSerializerOptions options;
+        public DocenteService(HttpClient httpClient)
+        {
+
+            client = httpClient;
+            options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        }
         public async Task<List<Docente>?> Get()
         {
             var response = await client.GetAsync("api/docente");
@@ -29,6 +35,24 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
         }
+        public async Task Delete(int id)
+        {
+            var response = await client.DeleteAsync($"api/docente/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
+        public async Task Update(Docente docente)
+        {
+            var response = await client.PutAsync($"api/docente/{docente.Id}", JsonContent.Create(docente));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
     }
 
 
@@ -37,7 +61,8 @@ namespace WebAppSchoolEase.Services
     {
         Task<List<Docente>?> Get();
         Task Add(Docente docente);
-
+        Task Delete(int id);
+        Task Update(Docente docente);
     }
 }
 
