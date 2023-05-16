@@ -10,5 +10,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var apiSchoolEase = builder.Configuration.GetValue<string>("apiSchoolEase");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiSchoolEase) });
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
+builder.Services.AddScoped<IHorarioService, HorarioService>();
+builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
 
 await builder.Build().RunAsync();
