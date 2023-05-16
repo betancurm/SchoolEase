@@ -13,5 +13,8 @@ builder.Services.AddScoped<IEstudianteService, EstudianteService>();
 builder.Services.AddScoped<IAcudienteService, AcudienteService>();
 builder.Services.AddScoped<IDocenteService, DocenteService>();
 
+builder.Services.AddScoped<IHorarioService, HorarioService>();
+builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
 
 await builder.Build().RunAsync();
