@@ -19,9 +19,9 @@
                 <span class="oi oi-people" aria-hidden="true" ></span> Usuarios
             </a>
             <div class="dropdown-menu" aria-labelledby=" userDropdown" style="@userDropdownStyle">
-                <a class="dropdown-item" href="periodoacademico" @onclick="(() => configDropdownIsOpen = false)">Profesor</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Estudiante</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Acudiente</a>
+                <a class="dropdown-item" href="docente" @onclick="(() => userDropdownIsOpen= false)">Profesor</a>
+                <a class="dropdown-item" href="estudiante" @onclick="(() => userDropdownIsOpen= false)">Estudiante</a>
+                <a class="dropdown-item" href="acudiente" @onclick="(() => userDropdownIsOpen= false)">Acudiente</a>
              
             </div>
         </div>
@@ -52,16 +52,7 @@
             </div>
         </div>
         
-        <div class="nav-item dropdown px-3">
-            <a class="nav-link dropdown-toggle" id="configDropdown" role="button" @onclick="() => toggleConfigDropdown()" aria-haspopup="true" aria-expanded="@configDropdownIsOpen">
-                <span class="oi oi-menu" aria-hidden="true"></span> Configuraciones
-            </a>
-            <div class="dropdown-menu" aria-labelledby=" configDropdown" style="@configDropdownStyle">
-                <a class="dropdown-item" href="periodoacademico" @onclick="@(() => configDropdownIsOpen = false)">Periodo Académico</a>
-                <a class="dropdown-item" href="#" @onclick="@(() => configDropdownIsOpen = false)">Opción 2</a>
-                <a class="dropdown-item" href="#" @onclick="@(() => configDropdownIsOpen = false)">Opción 3</a>
-            </div>
-        </div>
+       
 
     </nav>
         
@@ -70,7 +61,7 @@
 @code {
     bool configDropdownIsOpen = false;
     bool userDropdownIsOpen = false;
-
+    bool mainMenuIsOpen = false;
 
     string configDropdownStyle => $"display: {(configDropdownIsOpen ? "block" : "none")};";
     string userDropdownStyle => $"display: {(userDropdownIsOpen ? "block" : "none")};";
@@ -78,11 +69,14 @@
     void toggleConfigDropdown()
     {
         configDropdownIsOpen = !configDropdownIsOpen;
+        mainMenuIsOpen = false;
     }
     void toggleUserDropdown()
     {
         userDropdownIsOpen = !userDropdownIsOpen;
+        mainMenuIsOpen = false;
         configDropdownIsOpen = false;
+        
     }
 
 }
@@ -96,6 +90,20 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        if (configDropdownIsOpen)
+        {
+            userDropdownIsOpen = false;
+            mainMenuIsOpen = false;
+        }
+        if (userDropdownIsOpen)
+        {
+            configDropdownIsOpen = false;
+            mainMenuIsOpen = false;
+        }
+        mainMenuIsOpen = !mainMenuIsOpen;
+        
     }
+    //private string MainMenuCssClass => mainMenuIsOpen ? "open" : null;
+}
 
 }

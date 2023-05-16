@@ -10,20 +10,20 @@ namespace ApischoolEase.Services
             context = dbcontext;
         }
         public IEnumerable<JornadaAcademica> Get()
-        {   
-            return context.JornadasAcademicas;          
+        {
+            return context.JornadasAcademicas;
         }
         public async Task Save(JornadaAcademica jornadaAcademica)
         {
             context.JornadasAcademicas.Add(jornadaAcademica);
             await context.SaveChangesAsync();
         }
-        public async Task Update(int id , JornadaAcademica jornadaAcademica)
+        public async Task Update(int id, JornadaAcademica jornadaAcademica)
         {
             var JornadaActual = context.JornadasAcademicas.Find(id);
             if (JornadaActual != null)
             {
-                 JornadaActual.TipoJornadaAcademica = jornadaAcademica.TipoJornadaAcademica;
+                JornadaActual.TipoJornadaAcademica = jornadaAcademica.TipoJornadaAcademica;
                 JornadaActual.HoraInicio = jornadaAcademica.HoraInicio;
                 JornadaActual.HoraFin = jornadaAcademica.HoraFin;
                 JornadaActual.IdNivelAcademico = jornadaAcademica.IdNivelAcademico;
@@ -44,7 +44,7 @@ namespace ApischoolEase.Services
     {
         IEnumerable<JornadaAcademica> Get();
         Task Save(JornadaAcademica jornadaAcademica);
-        Task Update(int id , JornadaAcademica jornadaAcademica);
+        Task Update(int id, JornadaAcademica jornadaAcademica);
         Task Delete(int id);
     }
 }

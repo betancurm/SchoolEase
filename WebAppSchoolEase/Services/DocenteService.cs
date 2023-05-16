@@ -4,63 +4,65 @@ using WebAppSchoolEase.Models;
 
 namespace WebAppSchoolEase.Services
 {
-    public class PeriodoAcademicoService : IPeriodoAcademicoService
+    public class DocenteService:IDocenteService
     {
         private readonly HttpClient client;
 
         private readonly JsonSerializerOptions options;
-        public PeriodoAcademicoService(HttpClient httpClient)
+        public DocenteService(HttpClient httpClient)
         {
 
             client = httpClient;
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
+        public async Task<List<Docente>?> Get()
+        {
+            var response = await client.GetAsync("api/docente");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+            return JsonSerializer.Deserialize<List<Docente>>(content, options);
 
-        public async Task<List<PeriodoAcademico>?> Get()
-        {
-            var response = await client.GetAsync("api/periodoacademico");
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApplicationException(content);
-            }
-            return JsonSerializer.Deserialize<List<PeriodoAcademico>>(content, options);
-
         }
-        public async Task Add(PeriodoAcademico periodoAcademico)
+        public async Task Add(Docente docente)
         {
-            var response = await client.PostAsync("api/periodoacademico", JsonContent.Create(periodoAcademico));
+            var response = await client.PostAsync("api/docente", JsonContent.Create(docente));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new ApplicationException(content);
             }
         }
-        public async Task Delete(int id)
+        public async Task Delete(int idPersona)
         {
-            var response = await client.DeleteAsync($"api/periodoacademico/{id}");
+            var response = await client.DeleteAsync($"api/docente/{idPersona}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new ApplicationException(content);
             }
         }
-        public async Task Update(PeriodoAcademico periodoAcademico)
+        public async Task Update(Docente docente)
         {
-            var response = await client.PutAsync($"api/periodoacademico/{periodoAcademico.IdPeriodoAcademico}", JsonContent.Create(periodoAcademico));
+            var response = await client.PutAsync($"api/docente/{docente.Id}", JsonContent.Create(docente));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new ApplicationException(content);
             }
         }
-
     }
-    public interface IPeriodoAcademicoService
+
+
+
+    public interface IDocenteService
     {
-        Task<List<PeriodoAcademico>?> Get();
-        Task Add(PeriodoAcademico periodoAcademico);
-        Task Delete(int id);
-        Task Update(PeriodoAcademico periodo);
+        Task<List<Docente>?> Get();
+        Task Add(Docente docente);
+        Task Delete(int idPersona);
+        Task Update(Docente docente);
     }
 }
+
