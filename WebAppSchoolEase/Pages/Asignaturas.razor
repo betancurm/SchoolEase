@@ -1,10 +1,145 @@
-﻿@page "/Asignatura"
+﻿@page "/Asignaturas"
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
 @inject ILogger<Asignaturas> Logger;
 @inject IAsignaturaService asignaturaService;
 <PageTitle>Asignaturas</PageTitle>
 
-@code {
+
+@*
+    formulario para Crear Asignaturas
+*@
+<div>
+    <h3>Crear Asignatura</h3>
+    <EditForm Model="@asignatura" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="nombreAsignatura" class="col-form-label">Nombre Asignatura</label>
+                <InputText id="nombreAsignatura" class="form-control" @bind-Value="asignatura.nombreAsignatura" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr/>
+
+</div>
+@code
+{
+    private Asignatura asignatura = new();
+
+
+
+    private async Task Save()
+    {
+        await asignaturaService.Add(asignatura);
+        StateHasChanged();
+    }
 
 }
+@*
+tabla para mostrar Asignaturas
+*@
+@if (asignaturas?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre Asignatura</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Asignatura in asignaturas)
+            {
+
+                <tr>
+                    <td>
+                        @Asignatura.idAsignatura
+                        idAsignatura</td>
+                    <td>@Asignatura.nombreAsignatura</td>
+
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(Asignatura)">Editar</button>
+
+                        <button class="btn btn-danger" @onclick="() => Delete(Asignatura.idAsignatura)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <EditForm Model="@editAsignatura" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="nombreAsignatura" class="col-form-label">Nombre Asignatura:</label>
+            <InputText id="nombreAsignatura" class="form-control" @bind-Value="editAsignatura.nombreAsignatura" />
+
+            <ValidationMessage For="@(() => editAsignatura.nombreAsignatura)" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
+        </div>
+    </EditForm>
+
+
+}
+
+else
+{
+    <p><em>No hay Asignaturas registrados</em></p>
+}
+
+@code {
+    private List<Asignatura>? asignaturas;
+    private bool showEditForm = false;
+    private Asignatura AsignaturaEdit = new Asignatura(); // Variable para almacenar la información de la fila que se está editando
+    public Asignatura? editAsignatura;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        asignaturas = await GetAsignatura();
+
+    }
+
+    private async Task<List<Asignatura>> GetAsignatura()
+    {
+        return await asignaturaService.Get();
+    }
+
+
+
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar la asignatura")) { }
+
+        await asignaturaService.Delete(id);
+        await GetAsignatura();
+    }
+    private void ShowEditForm(Asignatura asignatura)
+    {
+        editAsignatura = asignatura;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await asignaturaService.Update(AsignaturaEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
+        showEditForm = false; // Oculta el formulario de edición
+        await GetAsignatura(); // Actualiza la lista de períodos académicos
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
+}
+
+
