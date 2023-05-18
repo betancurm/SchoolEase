@@ -13,8 +13,6 @@ namespace ApischoolEase.Models
         public GradoSeccion NombreGrupo { get; set; }
         [JsonIgnore]
         public virtual ICollection<Asignacion>? Asignaciones { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Matricula>? Matriculas { get; set; }
     }
     public enum GradoSeccion
     {

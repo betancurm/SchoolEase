@@ -17,10 +17,7 @@ namespace ApischoolEase.Models
         public int IdGradoAcademico { get; set; }
         [JsonIgnore]
         public GradoAcademico? GradoAcademico { get; set; }
-        // Relacion con Grupo
-        public int IdGrupo { get; set; }
-        [JsonIgnore]
-        public Grupo? Grupo { get; set; }
+
         // Relacion con Acudiente
         public int IdAcudiente { get; set; }
         [JsonIgnore]

@@ -16,7 +16,7 @@
         public int nivelAcademico { get; set; }
         public string Profesion { get; set; }
         public int sexo { get; set; }
-        public DateTime fechadenacimiento { get; set; }
+        public DateTime fechadenacimiento { get; set; } 
     }
 }
 
