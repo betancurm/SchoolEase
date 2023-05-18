@@ -22,10 +22,10 @@ builder.Services.AddDateOnlyTimeOnlyStringConverters();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //configuracion de la base de datos local, crear el string de conexion en el archivo appsettings.json
-//builder.Services.AddSqlServer<SchoolEaseContext>("Data Source=WORKSTATION;Initial Catalog=SchoolEaseDb;user id=juan;pwd=808410");
+builder.Services.AddSqlServer<SchoolEaseContext>("Data Source=WORKSTATION;Initial Catalog=SchoolEaseDb;user id=juan;pwd=808410");
 
 //Configuracion base de datos en memoria
-builder.Services.AddDbContext<SchoolEaseContext>(p => p.UseInMemoryDatabase("SchooEaseDB"));
+//builder.Services.AddDbContext<SchoolEaseContext>(p => p.UseInMemoryDatabase("SchooEaseDB"));
 
 //Aca se registra el servicio para que se pueda inyectar en el controlador
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
@@ -39,7 +39,6 @@ builder.Services.AddScoped<IAsignacionService, AsignacionService>();
 builder.Services.AddScoped<IHorarioService, HorarioService>();
 builder.Services.AddScoped<IEstudianteService, EstudianteService>();
 builder.Services.AddScoped<ICalificacionService, CalificacionService>();
-builder.Services.AddScoped<IPlanEstudioService, PlanEstudioService>();
 builder.Services.AddScoped<IAcudienteService, AcudienteService>();
 builder.Services.AddScoped<IMatriculaService, MatriculaService>();
 

@@ -26,6 +26,8 @@ namespace ApischoolEase.Services
                 AsignacionActual.IdAsignatura = asignacion.IdAsignatura;
                 AsignacionActual.IdGrupo = asignacion.IdGrupo;
                 AsignacionActual.IdDocente = asignacion.IdDocente;
+                AsignacionActual.IdHorario = asignacion.IdHorario;
+                AsignacionActual.IdEstudiante = asignacion.IdEstudiante;
                 await context.SaveChangesAsync();
             }
         }

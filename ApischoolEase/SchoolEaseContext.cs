@@ -16,7 +16,6 @@ namespace ApischoolEase
         public DbSet<Horario> Horarios { get; set; }
         public DbSet<Estudiante> Estudiantes { get; set; }
         public DbSet<Calificacion> Calificaciones { get; set; }
-        public DbSet<PlanEstudio> PlanesEstudios { get; set; }
         public DbSet<Acudiente> Acudientes { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
 
@@ -39,11 +38,9 @@ namespace ApischoolEase
                 matricula.Property(m => m.NuevoOAntiguo).IsRequired();
                 matricula.Property(m => m.IdEstudiante).IsRequired();
                 matricula.Property(m => m.IdGradoAcademico).IsRequired();
-                matricula.Property(m => m.IdGrupo).IsRequired();
                 matricula.Property(m => m.IdAcudiente).IsRequired();
                 matricula.HasOne(m => m.Estudiante).WithMany(e => e.Matriculas).HasForeignKey(m => m.IdEstudiante);
                 matricula.HasOne(m => m.GradoAcademico).WithMany(g => g.Matriculas).HasForeignKey(m => m.IdGradoAcademico);
-                matricula.HasOne(m => m.Grupo).WithMany(g => g.Matriculas).HasForeignKey(m => m.IdGrupo);
                 matricula.HasOne(m => m.Acudiente).WithMany(a => a.Matriculas).HasForeignKey(m => m.IdAcudiente);
 
                 matricula.HasData(MatriculaInit);
@@ -78,23 +75,6 @@ namespace ApischoolEase
                 acudiente.HasData(AcudienteInit);
             });
 
-
-            //PlanEstudio
-            List<PlanEstudio> PlanEstudioInit = new List<PlanEstudio>
-            {
-                new PlanEstudio(){IdPlanEstudio = 1, Descripcion = "Nota 1", Porcentaje = 0.20M},
-                new PlanEstudio(){IdPlanEstudio = 2, Descripcion = "Nota 2", Porcentaje = 0.10M},
-                new PlanEstudio(){IdPlanEstudio = 3, Descripcion = "Nota 3", Porcentaje = 0.05M}
-            };
-            modelBuilder.Entity<PlanEstudio>(planEstudio =>
-            {
-                planEstudio.ToTable("PlanEstudio");
-                planEstudio.HasKey(p => p.IdPlanEstudio);
-                planEstudio.Property(p => p.Descripcion).IsRequired().HasMaxLength(50);
-                planEstudio.Property(p => p.Porcentaje).IsRequired();
-                planEstudio.HasData(PlanEstudioInit);
-            });
-
             //Calificacion
             List<Calificacion> CalificacionInit = new List<Calificacion>
             {
@@ -104,9 +84,10 @@ namespace ApischoolEase
             {
                 calificacion.ToTable("Calificacion");
                 calificacion.HasKey(c => c.IdCalificacion);
-                calificacion.Property(c => c.Nota).IsRequired();
-                calificacion.HasOne(c => c.Estudiante).WithMany(e => e.Calificaciones).HasForeignKey(c => c.IdEstudiante);
-                calificacion.HasOne(c => c.PlanEstudio).WithMany(p => p.Calificaciones).HasForeignKey(c => c.IdPlanEstudio);
+                calificacion.Property(c => c.Nota).IsRequired(); 
+                calificacion.Property(c => c.Porcentaje).IsRequired();
+                calificacion.Property(c => c.IdAsignacion).IsRequired();
+                calificacion.HasOne(c => c.Asignacion).WithMany(m => m.Calificaciones).HasForeignKey(c => c.IdAsignacion);
                 calificacion.HasData(CalificacionInit);
             });
             //Estudiante
@@ -139,17 +120,17 @@ namespace ApischoolEase
             //Asignacion
             List<Asignacion> AsignacionInit = new List<Asignacion>()
             {
-                new Asignacion (){IdAsignacion = 1, IdGrupo = 1, IdAsignatura = 1, IdDocente = 1  , IdHorario= 1},
-                new Asignacion (){IdAsignacion = 2, IdGrupo = 1, IdAsignatura = 2, IdDocente = 2  , IdHorario= 2},
-                new Asignacion (){IdAsignacion = 3, IdGrupo = 1, IdAsignatura = 3, IdDocente = 3  , IdHorario= 3},
-                new Asignacion (){IdAsignacion = 4, IdGrupo = 1, IdAsignatura = 4, IdDocente = 4  , IdHorario= 4},
-                new Asignacion (){IdAsignacion = 5, IdGrupo = 1, IdAsignatura = 5, IdDocente = 5  , IdHorario= 5},
-                new Asignacion (){IdAsignacion = 6, IdGrupo = 1, IdAsignatura = 6, IdDocente = 6  , IdHorario= 6},
-                new Asignacion (){IdAsignacion = 7, IdGrupo = 1, IdAsignatura = 7, IdDocente = 1  , IdHorario= 7},
-                new Asignacion (){IdAsignacion = 8, IdGrupo = 1, IdAsignatura = 8, IdDocente = 2  , IdHorario= 8},
-                new Asignacion (){IdAsignacion = 9, IdGrupo = 1, IdAsignatura = 9, IdDocente = 3  , IdHorario= 9},
-                new Asignacion (){IdAsignacion = 10, IdGrupo = 1, IdAsignatura = 10, IdDocente = 4, IdHorario= 10},
-                new Asignacion (){IdAsignacion = 11, IdGrupo = 1, IdAsignatura = 11, IdDocente = 5, IdHorario= 11},
+                new Asignacion (){IdAsignacion = 1, IdGrupo = 1, IdAsignatura = 1,  IdDocente = 1  , IdHorario= 1 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 2, IdGrupo = 1, IdAsignatura = 2,  IdDocente = 2  , IdHorario= 2 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 3, IdGrupo = 1, IdAsignatura = 3,  IdDocente = 3  , IdHorario= 3 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 4, IdGrupo = 1, IdAsignatura = 4,  IdDocente = 4  , IdHorario= 4 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 5, IdGrupo = 1, IdAsignatura = 5,  IdDocente = 5  , IdHorario= 5 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 6, IdGrupo = 1, IdAsignatura = 6,  IdDocente = 6  , IdHorario= 6 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 7, IdGrupo = 1, IdAsignatura = 7,  IdDocente = 1  , IdHorario= 7 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 8, IdGrupo = 1, IdAsignatura = 8,  IdDocente = 2  , IdHorario= 8 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 9, IdGrupo = 1, IdAsignatura = 9,  IdDocente = 3  , IdHorario= 9 , IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 10,IdGrupo = 1, IdAsignatura = 10, IdDocente = 4  , IdHorario= 10, IdEstudiante=1},
+                new Asignacion (){IdAsignacion = 11,IdGrupo = 1, IdAsignatura = 11, IdDocente = 5  , IdHorario= 11, IdEstudiante=1},
 
             };
             modelBuilder.Entity<Asignacion>(asignacion =>
@@ -159,10 +140,13 @@ namespace ApischoolEase
                 asignacion.Property(a => a.IdAsignatura).IsRequired();
                 asignacion.Property(a => a.IdGrupo).IsRequired();
                 asignacion.Property(a => a.IdDocente).IsRequired();
+                asignacion.Property(a => a.IdHorario).IsRequired();
+                asignacion.Property(a => a.IdEstudiante).IsRequired();
                 asignacion.HasOne(a => a.Grupo).WithMany(g => g.Asignaciones).HasForeignKey(a => a.IdGrupo);
                 asignacion.HasOne(a => a.Asignatura).WithMany(a => a.Asignaciones).HasForeignKey(a => a.IdAsignatura);
                 asignacion.HasOne(a => a.Docente).WithMany(d => d.Asignaciones).HasForeignKey(a => a.IdDocente);
                 asignacion.HasOne(a => a.Horario).WithMany(h => h.Asignaciones).HasForeignKey(a => a.IdHorario);
+                asignacion.HasOne(a => a.Estudiante).WithMany(h => h.Asignaciones).HasForeignKey(a => a.IdEstudiante);
                 asignacion.HasData(AsignacionInit);
             });
             //Horario

@@ -15,17 +15,35 @@ namespace ApischoolEase.Services
         }
         public async Task Save(Calificacion calificacion)
         {
+            if (calificacion.Nota < 0 || calificacion.Nota > 5)
+            {
+                throw new ArgumentOutOfRangeException("La nota debe estar entre 0 y 5.");
+            }
+
+            if (calificacion.Porcentaje <0.05 || calificacion.Porcentaje > 0.20)
+            {
+                throw new ArgumentOutOfRangeException("El porcentaje debe estar entre 5% y 20%.");
+            }
+
             context.Calificaciones.Add(calificacion);
             await context.SaveChangesAsync();
         }
         public async Task Update(int id, Calificacion calificacion)
         {
+            if (calificacion.Nota < 0 || calificacion.Nota > 5)
+            {
+            }
+
+            if (calificacion.Porcentaje <= 0.05 || calificacion.Porcentaje > 0.2)
+            {
+            }
+
             var CalificacionActual = context.Calificaciones.Find(id);
             if (CalificacionActual != null)
             {
+                CalificacionActual.Porcentaje = calificacion.Porcentaje;
                 CalificacionActual.Nota = calificacion.Nota;
-                CalificacionActual.IdEstudiante = calificacion.IdEstudiante;
-                CalificacionActual.IdPlanEstudio = calificacion.IdPlanEstudio;
+
                 await context.SaveChangesAsync();
             }
         }

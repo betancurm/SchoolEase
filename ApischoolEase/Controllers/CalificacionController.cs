@@ -23,6 +23,7 @@ namespace ApischoolEase.Controllers
         {
             CalifiacionService.Save(calificacion);
             return Ok();
+
         }
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Calificacion calificacion)

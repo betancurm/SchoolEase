@@ -55,8 +55,8 @@
                 <label for="numeroDocumento" class="col-form-label">N&uacutemero de documento</label>
                 <InputText id="numeroDocumento" class="form-control" @bind-Value="docente.NumeroDocumento" required />
                 <label for="tipoDocumento" class="col-form-label">Tipo de sexo</label>
-                <InputSelect id="sexo" class="form-control" @bind-Value="docente.sexo">
-                    <option value="0">Seleccione su sexo</option>
+                <InputSelect id="sexo" class="form-control" @bind-Value="docente.sexo" >
+                    <option disabled selected value="">Seleccione su sexo</option>
                     <option value="1">Femenino</option>
                     <option value="2">Masculino</option>
                 </InputSelect>

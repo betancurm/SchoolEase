@@ -29,7 +29,6 @@ namespace ApischoolEase.Services
                 matriculaActual.NuevoOAntiguo = matricula.NuevoOAntiguo;
                 matriculaActual.IdEstudiante = matricula.IdEstudiante;
                 matriculaActual.IdGradoAcademico = matricula.IdGradoAcademico;
-                matriculaActual.IdGrupo = matricula.IdGrupo;
                 matriculaActual.IdAcudiente = matricula.IdAcudiente;
 
                 await context.SaveChangesAsync();
