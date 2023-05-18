@@ -58,6 +58,8 @@ namespace WebAppSchoolEase.Services
     {
         Task<List<Asignatura>?> Get();
         Task Add(Asignatura asignatura);
+        Task Delete(int id);
+        Task Update(Asignatura asignatura);
     }
 }
 
