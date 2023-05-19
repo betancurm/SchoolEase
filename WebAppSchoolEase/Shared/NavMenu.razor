@@ -27,8 +27,8 @@
         </div>
         <div class="nav-item px-3">
 
-            <NavLink class="nav-link" href="" @onclick="(() => configDropdownIsOpen = false)" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Matrícula
+            <NavLink class="nav-link" href="Matricula" @onclick="(() => configDropdownIsOpen = false)" Match="NavLinkMatch.All">
+                <span class="oi oi-people" aria-hidden="true"></span> Matrículas
             </NavLink>
         </div>
 
@@ -63,18 +63,18 @@
 
             </a>
             <div class="dropdown-menu"  aria-labelledby=" configDropdown" style="@configDropdownStyle">
-                <a class="dropdown-item" href="periodoacademico" @onclick="(() => configDropdownIsOpen = false)">Periodo Académico</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Nivel Académico</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Grado</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Jornada Académica</a>
+                <a class="dropdown-item" href="gradoacademico" @onclick="(() => configDropdownIsOpen = false)">Grado Académico</a>
                 <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Grupos</a>
                 <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Horario</a>
+                <a class="dropdown-item" href="jornadaacademica" @onclick="(() => configDropdownIsOpen = false)">Jornada Académica</a>
+                @*<a class="dropdown-item" href="matricula" @onclick="(() => configDropdownIsOpen = false)">Matricula</a>*@
+                <a class="dropdown-item" href="nivelacademico" @onclick="(() => configDropdownIsOpen = false)">Nivel Académico</a>
+                <a class="dropdown-item" href="periodoacademico" @onclick="(() => configDropdownIsOpen = false)">Periodo Académico</a>
+
 
             </div>
         </div>
         
-       
-
     </nav>
         
 </div>
