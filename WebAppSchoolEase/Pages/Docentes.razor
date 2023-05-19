@@ -92,11 +92,18 @@ tabla para mostrar periodos academicos
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado</th>
+
+                <th>Nombre Completo</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Nivel académico</th>
+                <th>Profesión</th>
+                <th>Correo electrónico</th>
+                <th>Celular</th>
+                <th>Fecha de nacimiento</th>
+                <th>Número de documento</th>
+                <th>Tipo de documento</th>
+                <th>Sexo</th>
             </tr>
         </thead>
         <tbody>
@@ -104,18 +111,24 @@ tabla para mostrar periodos academicos
             {
 
                 <tr>
-                    <td>@docente.PrimerNombre</td>
-                    <td>@docente.SegundoNombre</td>
-                    <td>@docente.PrimerApellido</td>
-                    <td>@docente.SegundoApellido</td>
+                    <td>@docente.PrimerNombre @docente.SegundoNombre @docente.PrimerApellido @docente.SegundoApellido</td>
                     <td>@docente.direccion</td>
                     <td>@docente.telefono</td>
+                   
+                    @if (docente.nivelAcademico.Equals(0))
+                    {
+                        <td>Pregrado</td>
+                    }
+                    else
+                    {
+                        <td>Posgrado</td>
+                    }
+                    <td>@docente.Profesion</td>
                     <td>@docente.correoElectronico</td>
                     <td>@docente.celular</td>
-                    <td>@docente.nivelAcademico</td>
+                    <td>@docente.fechadenacimiento</td>
                     <td>@docente.NumeroDocumento</td>
-                    <td>@docente.Profesion</td>
-                    <td>@docente.SegundoNombre</td>
+                    
                     @if (docente.tipoDocumento.Equals(0))
                     {
                         <td>Cédula</td>
