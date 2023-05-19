@@ -90,11 +90,17 @@ tabla para mostrar periodos academicos
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado</th>
+                <th>Nombre Completo</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Estado civil</th>
+                <th>Parentesco</th>
+                <th>Correo electrónico</th>
+                <th>Celular</th>
+                <th>Fecha de nacimiento</th>
+                <th>Número de documento</th>
+                <th>Tipo de documento</th>
+                <th>Sexo</th>
             </tr>
         </thead>
         <tbody>
@@ -102,12 +108,25 @@ tabla para mostrar periodos academicos
             {
 
                 <tr>
-                    <td>@acudiente.PrimerNombre</td>
-                    <td>@acudiente.SegundoNombre</td>
-                    <td>@acudiente.PrimerApellido</td>
-                    <td>@acudiente.SegundoApellido</td>
+                    <td>@acudiente.PrimerNombre @acudiente.SegundoNombre @acudiente.PrimerApellido @acudiente.SegundoApellido</td>
                     <td>@acudiente.direccion</td>
                     <td>@acudiente.telefono</td>
+                    @if (acudiente.estadoCivil.Equals(0))
+                    {
+                        <td>Soltero</td>
+                    }
+                    else
+                    {
+                        <td>Casado</td>
+                    }
+                    @if (acudiente.relacionEstudiante.Equals(0))
+                    {
+                        <td>Tío</td>
+                    }
+                    else
+                    {
+                        <td>Papá</td>
+                    }
                     <td>@acudiente.correoElectronico</td>
                     <td>@acudiente.celular</td>
                     <td>@acudiente.NumeroDocumento</td>
