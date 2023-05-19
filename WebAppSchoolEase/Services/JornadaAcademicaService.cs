@@ -9,13 +9,13 @@ namespace WebAppSchoolEase.Services
         private readonly HttpClient client;
 
         private readonly JsonSerializerOptions options;
-
         public JornadaAcademicaService(HttpClient httpClient)
         {
 
             client = httpClient;
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
+
         public async Task<List<JornadaAcademica>?> Get()
         {
             var response = await client.GetAsync("api/JornadaAcademica");
