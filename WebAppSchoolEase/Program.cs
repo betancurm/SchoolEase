@@ -17,6 +17,10 @@ builder.Services.AddScoped<IHorarioService, HorarioService>();
 builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
 builder.Services.AddScoped<IGrupoService, GrupoService>();
 builder.Services.AddScoped<ICalificacionService, CalificacionService>();
+builder.Services.AddScoped<IJornadaAcademicaService, JornadaAcademicaService>();
+builder.Services.AddScoped<INivelAcademicoService, NivelAcademicoService>();
+builder.Services.AddScoped<IGradoAcademicoService, GradoAcademicoService>();
+builder.Services.AddScoped<IMatriculaService, MatriculaService>();
 
 
 await builder.Build().RunAsync();
