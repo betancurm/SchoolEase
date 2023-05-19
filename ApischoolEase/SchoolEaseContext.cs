@@ -25,7 +25,13 @@ namespace ApischoolEase
         {
             // Matricula
             List<Matricula> MatriculaInit = new List<Matricula>
-            {
+            {                 
+                new Matricula(){IdMatricula = 1, FechaRegistro = new DateTime(2021, 1, 13), InstitucionDeProcedencia = "Fe y legria", EsRepitente = true, NuevoOAntiguo = false, IdEstudiante = 2, IdGradoAcademico = 1, IdAcudiente = 6},
+                new Matricula(){IdMatricula = 2, FechaRegistro = new DateTime(2021, 1, 13), InstitucionDeProcedencia = "Antonio Roldan", EsRepitente = true, NuevoOAntiguo = false, IdEstudiante = 3, IdGradoAcademico = 2, IdAcudiente = 2},
+                new Matricula(){IdMatricula = 3, FechaRegistro = new DateTime(2021, 1, 14), InstitucionDeProcedencia = "Maria Reina del carmelo", EsRepitente = true, NuevoOAntiguo = false,IdEstudiante = 4, IdGradoAcademico = 1, IdAcudiente = 3},
+                new Matricula(){IdMatricula = 4, FechaRegistro = new DateTime(2021, 1, 14), InstitucionDeProcedencia = "Fe y alegría", EsRepitente = false, NuevoOAntiguo = true, IdEstudiante = 3, IdGradoAcademico = 3, IdAcudiente = 4},
+                new Matricula(){IdMatricula = 5, FechaRegistro = new DateTime(2022, 1, 12), InstitucionDeProcedencia = "Seminario corazonista", EsRepitente = false, NuevoOAntiguo = true, IdEstudiante = 2, IdGradoAcademico = 2, IdAcudiente = 6},
+                new Matricula(){IdMatricula = 6, FechaRegistro = new DateTime(2022, 1, 13), InstitucionDeProcedencia = "Antonio Roldan", EsRepitente = false, NuevoOAntiguo = true, IdEstudiante = 5, IdGradoAcademico = 2, IdAcudiente = 5}
 
             };
             modelBuilder.Entity<Matricula>(matricula =>
