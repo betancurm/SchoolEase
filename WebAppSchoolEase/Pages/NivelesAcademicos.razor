@@ -9,9 +9,177 @@
 @*
     formulario para crear Niveles academicos
 *@
-
-<h3>Crear un Nivel Academico</h3>
+<div>
+    <h3>Crear una Jornada Academica</h3>
+    <EditForm Model="@nivelacademico" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="IdPeriodoAcademico" class="col-form-label">Id Periodo Academico</label>
+                <InputNumber id="IdPeriodoAcademico" class="form-control" @bind-Value="nivelacademico.IdPeriodoAcademico" required />
+                <label for="TipoNivelAcademico" class="col-form-label">Tipo de Jornada Academica</label>
+                <InputSelect id="TipoNivelAcademico" class="form-control" @bind-Value="nivelacademico.TipoNivelAcademico">
+                    <option value="0">Preescolar</option>
+                    <option value="1">Primaria</option>
+                    <option value="2">Secundaria</option>
+                    <option value="3">Media</option>
+                    <option value="4">Superior</option>
+                    <option value="5">Postgrado</option>
+                    <option value="6">Maestria</option>
+                    <option value="7">Doctorado</option>
+                </InputSelect>
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+</div>
 
 @code {
+    private NivelAcademico nivelacademico = new();
 
+    private async Task Save()
+    {
+        await nivelAcademicoService.Add(nivelacademico);
+        StateHasChanged();
+    }
+}
+@*
+tabla para mostrar Jornadas academicas
+*@
+@if (nivelesAcademicos?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Id Periodo Academico</th>
+                <th>Tipo de nivel Academico</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var nivelacademico in nivelesAcademicos)
+            {
+                <tr>
+                    <td>@nivelacademico.IdNivelAcademico</td>
+                    <td>@nivelacademico.IdPeriodoAcademico</td>
+                    @if (nivelacademico.TipoNivelAcademico.Equals(0))
+                    {
+                        <td>Preescolar</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(1))
+                    {
+                        <td>Primaria</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(2))
+                    {
+                        <td>Secundaria</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(3))
+                    {
+                        <td>Media</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(4))
+                    {
+                        <td>Superior</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(5))
+                    {
+                        <td>Postgrado</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(6))
+                    {
+                        <td>Maestria</td>
+                    }
+                    @if (nivelacademico.TipoNivelAcademico.Equals(7))
+                    {
+                        <td>Doctorado</td>
+                    }
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(nivelacademico)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(nivelacademico.IdNivelAcademico)">Eliminar</button>
+                    </td>
+                </tr>
+            } 
+
+        </tbody>
+    </table>
+
+    <EditForm Model="@editNivel" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="IdPeriodoAcademico">Hora Inicio:</label>
+            <InputNumber id="IdPeriodoAcademico" class="form-control" @bind-Value="editNivel.IdPeriodoAcademico"/>
+            <ValidationMessage For="@(() => editNivel.IdPeriodoAcademico)" />
+        </div>
+
+        <div class="form-group">
+            <label for="TipoNivelAcademico">Tipo Nivel Academico:</label>
+            <select id="TipoNivelAcademico" class="form-control" @bind="editNivel.TipoNivelAcademico">
+                <option value="0">Preescolar</option>
+                <option value="1">Primaria</option>
+                <option value="2">Secundaria</option>
+                <option value="3">Media</option>
+                <option value="4">Superior</option>
+                <option value="5">Postgrado</option>
+                <option value="6">Maestria</option>
+                <option value="7">Doctorado</option>
+            </select>
+            <ValidationMessage For="@(() => editNivel.TipoNivelAcademico)" />
+        </div>
+
+    </EditForm>
+
+}
+
+else
+{
+    <p><em>No hay Niveles academicos registradas</em></p>
+}
+
+@code {
+    private List<NivelAcademico>? nivelesAcademicos;
+    private bool showEditForm = false;
+    private NivelAcademico NivelAcademicoEdit = new NivelAcademico(); // Variable para almacenar la información de la fila que se está editando
+    public NivelAcademico? editNivel;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        nivelesAcademicos = await GetNivelesAcademicosicas();
+
+    }
+
+    private async Task<List<NivelAcademico>> GetNivelesAcademicosicas()
+    {
+        return await nivelAcademicoService.Get();
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar la jornada académica")) { }
+
+        await nivelAcademicoService.Delete(id);
+        await GetNivelesAcademicosicas();
+    }
+    private void ShowEditForm(NivelAcademico nivelAcademico)
+    {
+        editNivel = nivelAcademico;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await nivelAcademicoService.Update(NivelAcademicoEdit); // Envía una solicitud PUT al servidor para actualizar la información de la jornada académica
+        showEditForm = false; // Oculta el formulario de edición
+        await GetNivelesAcademicosicas(); // Actualiza la lista de las jornadas académicas
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
 }

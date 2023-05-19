@@ -2,7 +2,7 @@
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
 @inject ILogger<GradosAcademicos> Logger;
-@inject IJornadaAcademicaService jornadaAcademicaService;
+@inject IGradoAcademicoService gradoAcademicoService;
 @inject IJSRuntime JSRumtime;
 <PageTitle>Grados Academicos</PageTitle>
 
@@ -10,8 +10,125 @@
     formulario para crear Grados academicos
 *@
 
-<h3>Crear un Grado Academico</h3>
+<div>
+    <h3>Crear un Grado Academico</h3>
+    <EditForm Model="@gradoacademico" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="IdPeriodoAcademico" class="col-form-label">Id Periodo Academico</label>
+                <InputText id="IdPeriodoAcademico" class="form-control" @bind-Value="gradoacademico.Descripcion" required />
+                <label for="IdPeriodoAcademico" class="col-form-label">Id Periodo Academico</label>
+                <InputNumber id="IdPeriodoAcademico" class="form-control" @bind-Value="gradoacademico.IdNivelAcademico" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+</div>
 
 @code {
+    private GradoAcademico gradoacademico = new();
 
+    private async Task Save()
+    {
+        await gradoAcademicoService.Add(gradoacademico);
+        StateHasChanged();
+    }
+}
+@*
+tabla para mostrar Jornadas academicas
+*@
+@if (gradosacademicos?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripción</th>
+                <th>Id nivel Academico</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var gradoacademico in gradosacademicos)
+            {
+                <tr>
+                    <td>@gradoacademico.IdGradoAcademico</td>
+                    <td>@gradoacademico.Descripcion</td>
+                    <td>@gradoacademico.IdNivelAcademico</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(gradoacademico)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(gradoacademico.IdNivelAcademico)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <EditForm Model="@editGrado" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="Descripcion">Descripción:</label>
+            <InputText id="Descripcion" class="form-control" @bind-Value="editGrado.Descripcion" />
+            <ValidationMessage For="@(() => editGrado.Descripcion)" />
+        </div>
+        <div class="form-group">
+            <label for="IdNivelAcademico">Id Nivel Academico:</label>
+            <InputNumber id="IdNivelAcademico" class="form-control" @bind-Value="editGrado.Descripcion" />
+            <ValidationMessage For="@(() => editGrado.Descripcion)" />
+        </div>
+    </EditForm>
+
+}
+
+else
+{
+    <p><em>No hay Grados academicos registradas</em></p>
+}
+
+@code {
+    private List<GradoAcademico>? gradosacademicos;
+    private bool showEditForm = false;
+    private GradoAcademico GradoAcademicoEdit = new GradoAcademico(); // Variable para almacenar la información de la fila que se está editando
+    public GradoAcademico? editGrado;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        gradosacademicos = await GetGradosAcademicosicas();
+
+    }
+
+    private async Task<List<GradoAcademico>> GetGradosAcademicosicas()
+    {
+        return await gradoAcademicoService.Get();
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el grado académico")) { }
+
+        await gradoAcademicoService.Delete(id);
+        await GetGradosAcademicosicas();
+    }
+    private void ShowEditForm(GradoAcademico gradoAcademico)
+    {
+        editGrado = gradoAcademico;
+        showEditForm = true;
+    }
+
+    private async Task SaveEditForm()
+    {
+        await gradoAcademicoService.Update(GradoAcademicoEdit); // Envía una solicitud PUT al servidor para actualizar la información de la jornada académica
+        showEditForm = false; // Oculta el formulario de edición
+        await GetGradosAcademicosicas(); // Actualiza la lista de las jornadas académicas
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
 }
