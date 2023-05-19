@@ -34,11 +34,32 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
         }
+        public async Task Delete(int id)
+        {
+            var response = await client.DeleteAsync($"api/Asignatura/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
+        public async Task Update(Asignatura asignatura)
+        {
+            var response = await client.PutAsync($"api/Asignatura/{asignatura.idAsignatura}", JsonContent.Create(asignatura));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
+
     }
     public interface IAsignaturaService
     {
         Task<List<Asignatura>?> Get();
         Task Add(Asignatura asignatura);
+        Task Delete(int id);
+        Task Update(Asignatura asignatura);
     }
 }
 
