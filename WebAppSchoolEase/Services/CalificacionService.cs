@@ -58,5 +58,7 @@ namespace WebAppSchoolEase.Services
     {
         Task<List<Calificacion>?> Get();
         Task Add(Calificacion calificacion);
+        Task Update(Calificacion calificacion);
+        Task Delete(int id);
     }
 }
