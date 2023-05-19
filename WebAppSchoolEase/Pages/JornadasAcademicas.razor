@@ -1,0 +1,186 @@
+﻿@page "/jornadaacademica"
+@using WebAppSchoolEase.Models;
+@using WebAppSchoolEase.Services;
+@inject ILogger<JornadasAcademicas> Logger;
+@inject IJornadaAcademicaService jornadaAcademicaService;
+@inject IJSRuntime JSRumtime;
+<PageTitle>Jornadas Academicas</PageTitle>
+
+
+@*
+    formulario para crear Jornadas academicas
+*@
+<div>
+    <h3>Crear una Jornada Academica</h3>
+    <EditForm Model="@jornadaAcademica" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="tipoJornadaAcademica" class="col-form-label">Tipo de Jornada Academica</label>
+                <InputSelect id="tipoJornadaAcademica" class="form-control" @bind-Value="jornadaAcademica.TipoJornadaAcademica">
+                    <option value="0">Mañana</option>
+                    <option value="1">Tarde</option>
+                    <option value="2">Noche</option>
+                </InputSelect>
+                <label for="HoraInicio" class="col-form-label">Hora Inicio</label>
+                <InputText id="HoraInicio" class="form-control" @bind-Value="jornadaAcademica.HoraInicio" required />
+                <label for="HoraFin" class="col-form-label">Hora Fin</label>
+                <InputText id="HoraFin" class="form-control" @bind-Value="jornadaAcademica.HoraFin" required />
+                <label for="IdNivelAcademico" class="col-form-label">Identificador Nivel Academico</label>
+                <InputNumber id="IdNivelAcademico" class="form-control" @bind-Value="jornadaAcademica.NivelAcademico.IdNivelAcademico" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit" >Guardar</button>
+</EditForm>
+    <hr />
+
+</div>
+@code
+{
+    private JornadaAcademica jornadaAcademica = new();
+   
+    private async Task Save()
+    {
+        await jornadaAcademicaService.Add(jornadaAcademica);
+        StateHasChanged();
+    }
+   
+}
+@*
+tabla para mostrar Jornadas academicas
+*@
+@if (jornadasAcademicas?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tipo Jornada Academica</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th>Id nivel Academico</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var jornadaAcademica in jornadasAcademicas)
+            {
+                <tr>
+                    <td>@jornadaAcademica.IdJornadaAcademica</td>
+                    @if (jornadaAcademica.TipoJornadaAcademica.Equals(0))
+                    {
+                        <td>Mañana</td>
+                    }
+                    @if (jornadaAcademica.TipoJornadaAcademica.Equals(1))
+                    {
+                        <td>Tarde</td>
+                    }
+                    else
+                    {
+                        <td>Noche</td>
+                    }
+                    <td>@jornadaAcademica.HoraInicio</td>
+                    <td>@jornadaAcademica.HoraInicio</td>
+                    <td>@jornadaAcademica.NivelAcademico.IdNivelAcademico</td>
+
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(jornadaAcademica)">Editar</button>
+
+                        <button class="btn btn-danger" @onclick="() => Delete(jornadaAcademica.IdJornadaAcademica)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <EditForm Model="@editJornada" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="tipoJornadaAcademica">Tipo Jornada Academica:</label>
+            <select id="tipoJornadaAcademica" class="form-control" @bind="editJornada.TipoJornadaAcademica">
+
+                <option value="0">Mañana</option>
+                <option value="1">Tarde</option>
+                <option value="2">Noche</option>
+            </select>
+            <ValidationMessage For="@(() => editJornada.TipoJornadaAcademica)" />
+        </div>
+
+        <div class="form-group">
+            <label for="HoraInicio">Hora Inicio:</label>
+            <InputText id="HoraInicio" class="form-control" @bind-Value="editJornada.HoraInicio" />
+            <ValidationMessage For="@(() => editJornada.HoraInicio)" />
+        </div>
+
+        <div class="form-group">
+            <label for="HoraFin">Hora Fin:</label>
+            <InputText id="HoraFin" class="form-control" @bind-Value="editJornada.HoraFin" />
+            <ValidationMessage For="@(() => editJornada.HoraFin)" />
+        </div>
+
+        <div class="form-group">
+            <label for="IdNivelAcademico">Identificador NivelAcademico:</label>
+            <InputNumber id="IdNivelAcademico" class="form-control" @bind-Value="editJornada.NivelAcademico.IdNivelAcademico" />
+            <ValidationMessage For="@(() => editJornada.NivelAcademico.IdNivelAcademico)" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
+        </div>
+
+    </EditForm>
+
+}
+
+else
+{
+    <p><em>No hay Jornadas academicas registradas</em></p>
+}
+
+@code {
+    private List<JornadaAcademica>? jornadasAcademicas;
+    private bool showEditForm = false;
+    private JornadaAcademica JornadaAcademicaEdit = new JornadaAcademica(); // Variable para almacenar la información de la fila que se está editando
+    public JornadaAcademica? editJornada;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        jornadasAcademicas = await GetJornadasAcademicas();
+
+    }
+
+    private async Task<List<JornadaAcademica>> GetJornadasAcademicas()
+    {
+        return await jornadaAcademicaService.Get();
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar la jornada académica")) { }
+
+        await jornadaAcademicaService.Delete(id);
+        await GetJornadasAcademicas();
+    }
+    private void ShowEditForm(JornadaAcademica jornadaAcademica)
+    {
+        editJornada = jornadaAcademica;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await jornadaAcademicaService.Update(JornadaAcademicaEdit); // Envía una solicitud PUT al servidor para actualizar la información de la jornada académica
+        showEditForm = false; // Oculta el formulario de edición
+        await GetJornadasAcademicas(); // Actualiza la lista de las jornadas académicas
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
+}
+

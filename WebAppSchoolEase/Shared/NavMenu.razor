@@ -66,17 +66,18 @@
 
             </a>
             <div class="dropdown-menu"  aria-labelledby=" configDropdown" style="@configDropdownStyle">
+                <a class="dropdown-item" href="gradoacademico" @onclick="(() => configDropdownIsOpen = false)">Grado Académico</a>
+                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Grupos</a>
+                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Horario</a>
+                <a class="dropdown-item" href="jornadaacademica" @onclick="(() => configDropdownIsOpen = false)">Jornada Académica</a>
+                @*<a class="dropdown-item" href="matricula" @onclick="(() => configDropdownIsOpen = false)">Matricula</a>*@
+                <a class="dropdown-item" href="nivelacademico" @onclick="(() => configDropdownIsOpen = false)">Nivel Académico</a>
                 <a class="dropdown-item" href="periodoacademico" @onclick="(() => configDropdownIsOpen = false)">Periodo Académico</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Nivel Académico</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Jornada Académica</a>
-                <a class="dropdown-item" href="#" @onclick="(() => configDropdownIsOpen = false)">Grado</a>
-                
+
 
             </div>
         </div>
         
-       
-
     </nav>
         
 </div>
