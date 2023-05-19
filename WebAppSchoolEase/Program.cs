@@ -16,6 +16,7 @@ builder.Services.AddScoped<IDocenteService, DocenteService>();
 builder.Services.AddScoped<IHorarioService, HorarioService>();
 builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
 builder.Services.AddScoped<IGrupoService, GrupoService>();
+builder.Services.AddScoped<ICalificacionService, CalificacionService>();
 
 
 await builder.Build().RunAsync();

@@ -1,0 +1,160 @@
+﻿@page "/calificacion"
+@using WebAppSchoolEase.Models;
+@using WebAppSchoolEase.Services;
+@inject ILogger<Calificacion> Logger;
+@inject ICalificacionService CalificacionService;
+@inject IJSRuntime JSRumtime;
+<PageTitle>Calificación</PageTitle>
+
+
+@*
+    formulario para crear periodos academicos
+*@
+<div>
+    <h3>Crear Calificación</h3>
+    <EditForm Model="@calificacion" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="nota" class="col-form-label">Nota</label>
+                <InputNumber id="nota" class="form-control" @bind-Value="calificacion.Nota" required/>
+                <label for="porcentaje" class="col-form-label">Porcentaje</label>
+                <InputNumber id="porcentaje" class="form-control" @bind-Value="calificacion.Porcentaje" required />
+                <label for="idAsignacion" class="col-form-label">Asignación</label> 
+                <InputNumber id="idAsignacion" class="form-control" @bind-Value="calificacion.IdAsignacion" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit" >Guardar</button>
+</EditForm>
+    <hr />
+
+</div>
+@code
+{
+    private Calificacion calificacion = new();
+   
+
+
+    private async Task Save()
+    {
+        await CalificacionService.Add(calificacion);
+        StateHasChanged();
+    }
+   
+}
+@*
+tabla para mostrar periodos academicos
+*@
+@if (califaciones?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nota</th>
+                <th>Porcentaje</th>
+                <th>Asignación</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var calificacion in califaciones)
+            {
+               
+                <tr>
+                    <td>@calificacion.Nota</td>
+                    <td>@calificacion.Porcentaje</td>
+                    <td>@calificacion.IdAsignacion</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(calificacion)">Editar</button>
+
+                        <button class="btn btn-danger" @onclick="() => Delete(calificacion.IdCalificacion)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+          
+        </tbody>
+    </table>
+     <EditForm Model="@editCalificacion" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="nota">nota:</label>
+            <InputNumber id="nota" class="form-control" @bind-Value="editCalificacion.Nota" />
+            <ValidationMessage For="@(() => editCalificacion.Nota)" />
+        </div>
+
+        <div class="form-group">
+            <label for="porcentaje">Porcentaje:</label>
+            <InputNumber id="porcentaje" class="form-control" @bind-Value="editCalificacion.Porcentaje" />
+            <ValidationMessage For="@(() => editCalificacion.Porcentaje)" />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaFin">Fecha Fin:</label>
+            <InputNumber id="fechaFin" class="form-control" @bind-Value="editCalificacion.IdAsignacion" />
+            <ValidationMessage For="@(() => editCalificacion.IdAsignacion)" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
+        </div>
+    </EditForm>
+
+}
+
+else
+{
+    <p><em>No hay periodos academicos registrados</em></p>
+}
+
+
+@code {
+    private List<Calificacion>? califaciones;
+    private bool showEditForm = false;
+    private Calificacion CalificacionEdit = new Calificacion(); // Variable para almacenar la información de la fila que se está editando
+    public Calificacion? editCalificacion;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        califaciones = await GetCalificaciones();
+
+    }
+
+    private async Task<List<Calificacion>> GetCalificaciones()
+    {
+        return await CalificacionService.Get();
+    }
+    
+
+  
+
+    private async Task Delete(int id)
+    {
+        if(await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar la calificación")){}
+            
+        await CalificacionService.Delete(id);
+            await GetCalificaciones();
+    }
+    private void ShowEditForm(Calificacion calificacion)
+    {
+        editCalificacion = calificacion;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await CalificacionService.Update(CalificacionEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
+        showEditForm = false; // Oculta el formulario de edición
+        await GetCalificaciones(); // Actualiza la lista de períodos académicos
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
+}
