@@ -6,7 +6,6 @@
         public int TipoJornadaAcademica { get; set; }
         public string HoraInicio { get; set; }
         public string HoraFin { get; set; }
-        public NivelAcademico NivelAcademico { get; set; }
     }
 
 }
