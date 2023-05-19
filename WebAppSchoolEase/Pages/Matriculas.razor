@@ -2,16 +2,190 @@
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
 @inject ILogger<Matriculas> Logger;
-@inject IMatriculaService MatriculaService;
+@inject IMatriculaService matriculaService;
 @inject IJSRuntime JSRumtime;
 <PageTitle> Realizar una Matricula</PageTitle>
 
 @*
     formulario de matriculas
 *@
-
-<h3>Registrar una matricula  </h3>
-
+<div>
+    <h3>Registar una Matricula</h3>
+    <EditForm Model="@matricula" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="FechaRegistro " class="col-form-label">Fecha de Registro</label>
+                <InputDate id="FechaRegistro" class="form-control" @bind-Value="matricula.FechaRegistro" required />
+                <label for="InstitucionDeProcedencia" class="col-form-label">Institucion De Procedencia</label>
+                <InputText id="InstitucionDeProcedencia" class="form-control" @bind-Value="matricula.InstitucionDeProcedencia" required />
+                <label for="EsRepitente" class="col-form-label">¿Es Repitente?</label>
+                <InputSelect id="EsRepitente" class="form-control" @bind-Value="matricula.EsRepitente">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                </InputSelect>
+                <label for="NuevoOAntiguo" class="col-form-label">¿Nuevo O Antiguo?</label>
+                <InputSelect id="NuevoOAntiguo" class="form-control" @bind-Value="matricula.NuevoOAntiguo">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                </InputSelect>
+                <label for="IdEstudiante" class="col-form-label">Id Estudiante</label>
+                <InputNumber id="IdEstudiante" class="form-control" @bind-Value="matricula.IdEstudiante" required />
+                <label for="IdGradoAcademico" class="col-form-label">Id Grado Academico</label>
+                <InputNumber id="IdGradoAcademico" class="form-control" @bind-Value="matricula.IdGradoAcademico" required />
+                <label for="IdAcudiente" class="col-form-label">Id Acudiente</label>
+                <InputNumber id="IdAcudiente" class="form-control" @bind-Value="matricula.IdAcudiente" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+</div>
 @code {
+    private Matricula matricula = new();
+
+    private async Task Save()
+    {
+        await matriculaService.Add(matricula);
+        StateHasChanged();
+    }
+}
+
+@*
+tabla para mostrar Jornadas academicas
+*@
+
+@if (matriculas?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FechaRegistro</th>
+                <th>InstitucionDeProcedencia</th>
+                <th>EsRepitente</th>
+                <th>NuevoOAntiguo</th>
+                <th>IdEstudiante</th>
+                <th>IdAcudiente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var matricula in matriculas)
+            {
+                <tr>
+                    <td>@matricula.IdMatricula</td>
+                    <td>@matricula.FechaRegistro</td>
+                    <td>@matricula.InstitucionDeProcedencia</td>
+                    <td>@matricula.EsRepitente</td>
+                    <td>@matricula.NuevoOAntiguo</td>
+                    <td>@matricula.IdEstudiante</td>
+                    <td>@matricula.IdAcudiente</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(matricula)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(matricula.IdMatricula)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <EditForm Model="@editMatricula" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="FechaRegistro">FechaRegistro:</label>
+            <InputDate id="FechaRegistro" class="form-control" @bind-Value="editMatricula.FechaRegistro" />
+            <ValidationMessage For="@(() => editMatricula.FechaRegistro)" />
+        </div>
+        <div class="form-group">
+            <label for="InstitucionDeProcedencia">Institucion De Procedencia:</label>
+            <InputTextArea id="InstitucionDeProcedencia" class="form-control" @bind-Value="editMatricula.InstitucionDeProcedencia" />
+            <ValidationMessage For="@(() => editMatricula.InstitucionDeProcedencia)" />
+        </div>
+        <div class="form-group">
+            <label for="EsRepitente">Es Repitente:</label>
+            <select id="EsRepitente" class="form-control" @bind="editMatricula.EsRepitente">
+                <option value="true">Si</option>
+                <option value="false">No</option>
+            </select>
+            <ValidationMessage For="@(() => editMatricula.EsRepitente)" />
+        </div>
+        <div class="form-group">
+            <label for="NuevoOAntiguo">Nuevo O Antiguo:</label>
+            <select id="NuevoOAntiguo" class="form-control" @bind="editMatricula.NuevoOAntiguo">
+                <option value="true">Si</option>
+                <option value="false">No</option>
+            </select>
+            <ValidationMessage For="@(() => editMatricula.NuevoOAntiguo)" />
+        </div>
+        <div class="form-group">
+            <label for="IdEstudiante">Id Estudiante:</label>
+            <InputNumber id="IdEstudiante" class="form-control" @bind-Value="editMatricula.IdEstudiante" />
+            <ValidationMessage For="@(() => editMatricula.IdEstudiante)" />
+        </div>
+
+        <div class="form-group">
+            <label for="IdGradoAcademico">Id Grado Academico:</label>
+            <InputNumber id="IdGradoAcademico" class="form-control" @bind-Value="editMatricula.IdGradoAcademico" />
+            <ValidationMessage For="@(() => editMatricula.IdGradoAcademico)" />
+        </div>
+
+        <div class="form-group">
+            <label for="IdAcudiente">Id Acudiente:</label>
+            <InputNumber id="IdAcudiente" class="form-control" @bind-Value="editMatricula.IdAcudiente" />
+            <ValidationMessage For="@(() => editMatricula.IdAcudiente)" />
+        </div>
+    </EditForm>
 
 }
+
+else
+{
+<p><em>No hay Matriculas registradas</em></p>
+}
+
+@code {
+    private List<Matricula>? matriculas;
+    private bool showEditForm = false;
+    private Matricula MatriculaEdit = new Matricula(); // Variable para almacenar la información de la fila que se está editando
+    public Matricula? editMatricula;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        matriculas = await GetMatricula();
+
+    }
+
+    private async Task<List<Matricula>> GetMatricula()
+    {
+        return await matriculaService.Get();
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar la matricula")) { }
+
+        await matriculaService.Delete(id);
+        await GetMatricula();
+    }
+    private void ShowEditForm(Matricula matricula)
+    {
+        editMatricula = matricula;
+        showEditForm = true;
+    }
+
+    private async Task SaveEditForm()
+    {
+        await matriculaService.Update(MatriculaEdit); // Envía una solicitud PUT al servidor para actualizar la información de la jornada académica
+        showEditForm = false; // Oculta el formulario de edición
+        await GetMatricula(); // Actualiza la lista de las jornadas académicas
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
+}
+
