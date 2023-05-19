@@ -21,4 +21,5 @@ builder.Services.AddScoped<INivelAcademicoService, NivelAcademicoService>();
 builder.Services.AddScoped<IGradoAcademicoService, GradoAcademicoService>();
 builder.Services.AddScoped<IMatriculaService, MatriculaService>();
 
+
 await builder.Build().RunAsync();

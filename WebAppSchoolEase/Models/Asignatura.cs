@@ -2,7 +2,7 @@
 {
     public class Asignatura
     {
-        public int IdAsignatura { get; set; }
-        public string NombreAsignatura { get; set; }
+        public int idAsignatura { get; set; }
+        public string nombreAsignatura { get; set; }
     }
 }
