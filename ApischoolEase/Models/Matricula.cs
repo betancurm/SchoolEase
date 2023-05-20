@@ -9,6 +9,7 @@ namespace ApischoolEase.Models
         public string InstitucionDeProcedencia { get; set; }
         public bool EsRepitente { get; set; }
         public bool NuevoOAntiguo { get; set; }
+
         //Realcion con Estudiante
         public int IdEstudiante { get; set; }
         [JsonIgnore]

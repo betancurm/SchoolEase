@@ -18,7 +18,7 @@ namespace WebAppSchoolEase.Services
         }
         public async Task<List<NivelAcademico>?> Get()
         {
-            var response = await client.GetAsync("api/NivelAcademico");
+            var response = await client.GetAsync("api/nivelacademico");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -29,7 +29,7 @@ namespace WebAppSchoolEase.Services
         }
         public async Task Add(NivelAcademico nivelAcademico)
         {
-            var response = await client.PostAsync("api/NivelAcademico", JsonContent.Create(nivelAcademico));
+            var response = await client.PostAsync("api/nivelacademico", JsonContent.Create(nivelAcademico));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -38,7 +38,7 @@ namespace WebAppSchoolEase.Services
         }
         public async Task Delete(int id)
         {
-            var response = await client.DeleteAsync($"api/NivelAcademico/{id}");
+            var response = await client.DeleteAsync($"api/nivelacademico/{id}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -47,7 +47,7 @@ namespace WebAppSchoolEase.Services
         }
         public async Task Update(NivelAcademico nivelAcademico)
         {
-            var response = await client.PutAsync($"api/NivelAcademico/{nivelAcademico.IdNivelAcademico}", JsonContent.Create(nivelAcademico));
+            var response = await client.PutAsync($"api/nivelacademico/{nivelAcademico.IdNivelAcademico}", JsonContent.Create(nivelAcademico));
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

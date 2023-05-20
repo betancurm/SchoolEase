@@ -8,9 +8,8 @@
         public bool EsRepitente { get; set; }
         public bool NuevoOAntiguo { get; set; }
         public int IdEstudiante { get; set; }
-        public Estudiante? Estudiante { get; set; }
-        public GradoAcademico? GradoAcademico { get; set; }
-        public Acudiente? Acudiente { get; set; }
+        public int IdGradoAcademico { get; set; }
+        public int IdAcudiente { get; set; }
 
     }
 }
