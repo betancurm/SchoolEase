@@ -28,8 +28,8 @@ Esta solución consta de dos proyectos, por un lado se encuentra una API cuyo no
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/juanbetancurm/"><img src="https://avatars.githubusercontent.com/u/96802339?v=4" width="100px;" alt="Juan Manuel Betancur"/><br /><sub><b>Juan Manuel Betancur</b></sub></a><br /><a href="https://github.com/betancurm/SchoolEase" title="Code">💻</a><a title="Tutoriales">✅</a><a title="Documentación">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/jennysancheza/"><img src="https://avatars.githubusercontent.com/u/90258108?v=4" width="100px;" alt="Rina Plata"/><br /><sub><b>Jenny Sánchez Arango</b></sub></a><br /><a href="https://github.com/Jesaar/SchooEase" title="Codigo">💻</a> </td>
-      <td align="center" valign="top" width="14.28%"><a href=""><img src="" width="100px;" alt="Estefany Builes Lopera"/><br /><sub><b>Estefany Builes Lopera</b></sub></a><br /><a href="https://github.com/Stefany023/SchooEase" title="Codigo">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href=""><img src="" width="100px;" alt="Geraldine Davila Echeverri"/><br /><sub><b>Geraldine Davila Echeverri</b></sub></a><br /><a href="https://github.com/Mteheran/api-colombia/mteheran/api-colombia/commits?author=mariobot" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href=""><img src="https://avatars.githubusercontent.com/u/99564268?v=4" width="100px;" alt="Estefany Builes Lopera"/><br /><sub><b>Estefany Builes Lopera</b></sub></a><br /><a href="https://github.com/Stefany023/SchooEase" title="Codigo">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href=""><img src="https://avatars.githubusercontent.com/u/105022840?v=4" width="100px;" alt="Geraldine Davila Echeverri"/><br /><sub><b>Geraldine Davila Echeverri</b></sub></a><br /><a href="https://github.com/Mteheran/api-colombia/mteheran/api-colombia/commits?author=mariobot" title="Code">💻</a></td>
     </tr>
 </table>
 
