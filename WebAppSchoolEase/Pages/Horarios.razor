@@ -1,10 +1,48 @@
-﻿@page "/Horario"
+﻿@page "/Horarios"
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
 @inject ILogger<Horarios> Logger;
 @inject IHorarioService horarioService;
 <PageTitle>Horarios</PageTitle>
 
-@code {
+@*
+    formulario para Crear 
+*@
+<div>
+    <h3>Crear Horario</h3>
+    <EditForm Model="@horario" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="DiaSemana" class="col-form-label">Dia Semana</label>
+                <InputSelect id="DiaSemana" class="form-control" @bind-Value="horario.DiaSemana">
+                    <option value="0">Lunes</option>
+                    <option value="1">Martes</option>
+                    <option value="2">Miercoles</option>
+                    <option value="3">Jueves</option>
+                    <option value="4">Viernes</option>
+                </InputSelect>
+                <label for="HoraInicio" class="col-form-label">Hora Inicio</label>
+                <InputDate id="HoraInicio" class="form-control" @bind-Value="horario.HoraInicio" required />
+                <label for="HoraFin" class="col-form-label">Hora Finalizacion</label>
+                <InputDate id="HoraFin" class="form-control" @bind-Value="horario.HoraFin" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
+
+</div>
+@code
+{
+    private Horario horario = new();
+
+
+
+    private async Task Save()
+    {
+        await horarioService.Add(horario);
+        StateHasChanged();
+    }
 
 }
