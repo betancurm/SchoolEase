@@ -38,7 +38,7 @@
             <div class="col-4 form-group">
 
                 <label for="fechaNacimiento" class="col-form-label">Fecha de Nacimiento</label>
-                <InputDate id="fechaFin" class="form-control" @bind-Value="estudiante.fechadenacimiento" required />
+                <InputDate id="fechaNacimiento" class="form-control" @bind-Value="estudiante.fechadenacimiento" required />
                 <label for="tipoDocumento" class="col-form-label">Tipo de Documento</label>
                 <InputSelect id="tipoDocumento" class="form-control" @bind-Value="estudiante.tipoDocumento">
                     <option value="0">Seleccione su tipo de documento</option>
@@ -80,11 +80,17 @@ tabla para mostrar periodos academicos
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado</th>
+                <th>Nombre Completo</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo electrónico</th>
+                <th>Celular</th>
+                <th>Fecha de nacimiento</th>
+                <th>Número de documento</th>
+                <th>Tipo de documento</th>
+                <th>Sexo</th>
+
+
             </tr>
         </thead>
         <tbody>
@@ -92,16 +98,16 @@ tabla para mostrar periodos academicos
             {
 
                 <tr>
-                    <td>@estudiante.PrimerNombre</td>
-                    <td>@estudiante.SegundoNombre</td>
+                    <td>@estudiante.PrimerNombre @estudiante.SegundoNombre @estudiante.PrimerApellido @estudiante.SegundoApellido</td>
+                    @*<td>@estudiante.SegundoNombre</td>
                     <td>@estudiante.PrimerApellido</td>
-                    <td>@estudiante.SegundoApellido</td>
+                    <td>@estudiante.SegundoApellido</td>*@
                     <td>@estudiante.direccion</td>
                     <td>@estudiante.telefono</td>
                     <td>@estudiante.correoElectronico</td>
                     <td>@estudiante.celular</td>
+                    <td>@estudiante.fechadenacimiento</td>
                     <td>@estudiante.NumeroDocumento</td>
-                    <td>@estudiante.SegundoNombre</td>
                     @if (estudiante.tipoDocumento.Equals(0))
                     {
                         <td>Cédula</td>
