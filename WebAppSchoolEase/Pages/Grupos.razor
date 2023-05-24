@@ -1,9 +1,43 @@
-﻿@page "/Grupo"
+﻿@page "/Grupos"
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
-@inject ILogger<Grupos> Logger;
+@inject ILogger<Asignaturas> Logger;
 @inject IGrupoService grupoService;
-<PageTitle>Grupos</PageTitle>
+@inject IJSRuntime JSRumtime;
 @*
-    
+    formulario para Crear Grupos
 *@
+<div>
+    <h3>Crear Grupos</h3>
+    <EditForm Model="@grupo" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="Vacantes" class="col-form-label">Número de Vacantes</label>
+                <InputNumber id="Vacantes" class="form-control" @bind-Value="grupo.Vacantes" required />
+                <label for="VacantesDisponibles" class="col-form-label">Número de Vacantes Disponibles</label>
+                <InputNumber id="VacantesDisponibles" class="form-control" @bind-Value="grupo.VacantesDisponibles" required />
+                <label for="VacantesOcupadas" class="col-form-label">Número de Vacantes Ocupadas</label>
+                <InputNumber id="VacantesOcupadas" class="form-control" @bind-Value="grupo.VacantesOcupadas" required />
+                <label for="Nombre" class="col-form-label">Nombre Grupo</label>
+                <InputText id="Nombre" class="form-control" @bind-Value="grupo.Nombre" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr/>
+
+</div>
+@code
+{
+    private Grupo grupo = new();
+
+
+
+    private async Task Save()
+    {
+        await grupoService.Add(grupo);
+        StateHasChanged();
+    }
+
+}

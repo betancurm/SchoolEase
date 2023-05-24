@@ -34,12 +34,32 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
         }
+        public async Task Delete(int id)
+        {
+            var response = await client.DeleteAsync($"api/Grupo/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
+        public async Task Update(Grupo grupo)
+        {
+            var response = await client.PutAsync($"api/Asignatura/{grupo.IdGrupo}", JsonContent.Create(grupo));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
 
     }
     public interface IGrupoService
     {
         Task<List<Grupo>?> Get();
         Task Add(Grupo grupo);
+        Task Delete(int id);
+        Task Update(Grupo grupo);
     }
 }
 

@@ -34,11 +34,31 @@ namespace WebAppSchoolEase.Services
                 throw new ApplicationException(content);
             }
         }
+        public async Task Delete(int id)
+        {
+            var response = await client.DeleteAsync($"api/Horario/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
+        public async Task Update(Horario horario)
+        {
+            var response = await client.PutAsync($"api/Horario/{horario.IdHorario}", JsonContent.Create(horario));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
     }
     public interface IHorarioService
     {
         Task<List<Horario>?> Get();
         Task Add(Horario horario);
+        Task Delete(int id);
+        Task Update(Horario horario);
     }
 }
 
