@@ -41,3 +41,115 @@
     }
 
 }
+@*
+tabla para mostrar Grupos
+*@
+@if (grupos?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdGrupo</th>
+                <th>Vacantes</th>
+                <th>VacantesDisponibles</th>
+                <th>VacantesOcupadas</th>
+                <th>Nombre </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Grupo in grupos)
+            {
+                <tr>
+                    <td>
+                        @Grupo.IdGrupo
+                        IdGrupo</td>
+                    <td>@Grupo.Nombre</td>
+
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(Grupo)">Editar</button>
+
+                        <button class="btn btn-danger" @onclick="() => Delete(Grupo.IdGrupo)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <EditForm Model="@editGrupo" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Vacantes" class="col-form-label">Número de Vacantes</label>
+            <InputNumber id="Vacantes" class="form-control" @bind-Value="grupo.Vacantes" required />
+            <ValidationMessage For="@(() => editGrupo.Vacantes)" />
+            <label for="VacantesDisponibles" class="col-form-label">Número de Vacantes Disponibles</label>
+            <InputNumber id="VacantesDisponibles" class="form-control" @bind-Value="grupo.VacantesDisponibles" required />
+            <ValidationMessage For="@(() => editGrupo.VacantesDisponibles)" />
+            <label for="VacantesOcupadas" class="col-form-label">Número de Vacantes Ocupadas</label>
+            <InputNumber id="VacantesOcupadas" class="form-control" @bind-Value="grupo.VacantesOcupadas" required />
+            <ValidationMessage For="@(() => editGrupo.VacantesOcupadas)" />
+            <label for="Nombre" class="col-form-label">Nombre Grupo</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="grupo.Nombre" required />
+            <ValidationMessage For="@(() => editGrupo.Nombre)" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="@CloseEditForm">Cancelar</button>
+        </div>
+    </EditForm>
+
+
+}
+
+else
+{
+    <p><em>No hay grupos registrados</em></p>
+}
+
+@code {
+    private List<Grupo>? grupos;
+    private bool showEditForm = false;
+    private Grupo GrupoEdit = new Grupo();// Variable para almacenar la información de la fila que se está editando
+    public Grupo? editGrupo;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        grupos = await GetGrupo();
+
+    }
+
+    private async Task<List<Grupo>> GetGrupo()
+    {
+        return await grupoService.Get();
+    }
+
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el grupo?")) { }
+
+        await grupoService.Delete(id);
+        await GetGrupo();
+    }
+    private void ShowEditForm(Grupo grupo)
+    {
+        editGrupo = grupo;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await grupoService.Update(GrupoEdit); // Envía una solicitud PUT al servidor para actualizar la información 
+        showEditForm = false; // Oculta el formulario de edición
+        await GetGrupo(); // Actualiza la lista 
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
+}

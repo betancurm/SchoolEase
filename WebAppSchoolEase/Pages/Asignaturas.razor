@@ -132,9 +132,9 @@ else
 
     private async Task SaveEditForm()
     {
-        await asignaturaService.Update(AsignaturaEdit); // Envía una solicitud PUT al servidor para actualizar la información del período académico
+        await asignaturaService.Update(AsignaturaEdit); // Envía una solicitud PUT al servidor para actualizar la información del la asignatura
         showEditForm = false; // Oculta el formulario de edición
-        await GetAsignatura(); // Actualiza la lista de períodos académicos
+        await GetAsignatura(); // Actualiza la lista 
 
     }
 
