@@ -3,6 +3,7 @@
 @using WebAppSchoolEase.Services;
 @inject ILogger<Horarios> Logger;
 @inject IHorarioService horarioService;
+@inject IJSRuntime JSRumtime;
 <PageTitle>Horarios</PageTitle>
 
 @*
@@ -22,9 +23,9 @@
                     <option value="4">Viernes</option>
                 </InputSelect>
                 <label for="HoraInicio" class="col-form-label">Hora Inicio</label>
-                <InputDate id="HoraInicio" class="form-control" @bind-Value="horario.HoraInicio" required />
+                <InputText id="HoraInicio" class="form-control" @bind-Value="horario.HoraInicio" required />
                 <label for="HoraFin" class="col-form-label">Hora Finalizacion</label>
-                <InputDate id="HoraFin" class="form-control" @bind-Value="horario.HoraFin" required />
+                <InputText id="HoraFin" class="form-control" @bind-Value="horario.HoraFin" required />
             </div>
         </div>
         <hr />
@@ -67,41 +68,29 @@ tabla para mostrar
                     <td>@horario.IdHorario</td>
                     @if (horario.DiaSemana.Equals(0))
                     {
-                        <td>Preescolar</td>
+                        <td>Lunes</td>
                     }
                     @if (horario.DiaSemana.Equals(1))
                     {
-                        <td>Primaria</td>
+                        <td>Martes</td>
                     }
                     @if (horario.DiaSemana.Equals(2))
                     {
-                        <td>Secundaria</td>
+                        <td>Miercoles</td>
                     }
                     @if (horario.DiaSemana.Equals(3))
                     {
-                        <td>Media</td>
+                        <td>Jueves</td>
                     }
                     @if (horario.DiaSemana.Equals(4))
                     {
-                        <td>Superior</td>
-                    }
-                    @if (horario.DiaSemana.Equals(5))
-                    {
-                        <td>Postgrado</td>
-                    }
-                    @if (horario.DiaSemana.Equals(6))
-                    {
-                        <td>Maestria</td>
-                    }
-                    @if (horario.DiaSemana.Equals(7))
-                    {
-                        <td>Doctorado</td>
+                        <td>Viernes</td>
                     }
                     <td>@horario.HoraInicio</td>
                     <td>@horario.HoraFin</td>
                     <td>
-                        <button class="btn btn-primary" @onclick="() => ShowEditForm(horario)">Editar</button>
-                        <button class="btn btn-danger" @onclick="() => Delete(horario.IdHorario)">Eliminar</button>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(Horario)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(Horario.IdHorario)">Eliminar</button>
                     </td>
                 </tr>
             } 
@@ -138,10 +127,10 @@ else
 }
 
 @code {
-    private List<Horarios>? horarios;
+    private List<Horario>? horarios;
     private bool showEditForm = false;
-    private Horarios HorarioEdit = new Horarios(); // Variable para almacenar la información de la fila que se está editando
-    public Horarios? editNivel;
+    private Horario HorarioEdit = new Horario(); // Variable para almacenar la información de la fila que se está editando
+    public Horario? editHorario;
 
 
     protected override async Task OnInitializedAsync()
@@ -150,7 +139,7 @@ else
 
     }
 
-    private async Task<List<Horarios>> GetHorarios()
+    private async Task<List<Horario>> GetHorarios()
     {
         return await horarioService.Get();
     }
@@ -160,7 +149,7 @@ else
         if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el horario")) { }
 
         await horarioService.Delete(id);
-        await Gethorarios();
+        await GetHorarios();
     }
     private void ShowEditForm(Horario horario)
     {

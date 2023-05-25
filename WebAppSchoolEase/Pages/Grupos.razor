@@ -60,9 +60,10 @@ tabla para mostrar Grupos
             @foreach (var Grupo in grupos)
             {
                 <tr>
-                    <td>
-                        @Grupo.IdGrupo
-                        IdGrupo</td>
+                    <td>@Grupo.IdGrupo</td>
+                    <td>@Grupo.Vacantes</td>
+                    <td>@Grupo.VacantesDisponibles</td>
+                    <td>@Grupo.VacantesOcupadas</td>
                     <td>@Grupo.Nombre</td>
 
                     <td>

@@ -4,7 +4,7 @@
     {
         public int IdHorario { get; set; }
         public int DiaSemana { get; set; }
-        public DateTime HoraInicio { get; set; }
-        public DateTime HoraFin { get; set; }
+        public string HoraInicio { get; set; }
+        public string HoraFin { get; set; }
     }
 }
