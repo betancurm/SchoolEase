@@ -1,10 +1,173 @@
-﻿@page "/Horario"
+﻿@page "/Horarios"
 @using WebAppSchoolEase.Models;
 @using WebAppSchoolEase.Services;
 @inject ILogger<Horarios> Logger;
 @inject IHorarioService horarioService;
+@inject IJSRuntime JSRumtime;
 <PageTitle>Horarios</PageTitle>
 
-@code {
+@*
+    formulario para Crear 
+*@
+<div>
+    <h3>Crear Horario</h3>
+    <EditForm Model="@horario" OnSubmit="@Save">
+        <div class="row">
+            <div class="col-8 form-group">
+                <label for="DiaSemana" class="col-form-label">Dia Semana</label>
+                <InputSelect id="DiaSemana" class="form-control" @bind-Value="horario.DiaSemana">
+                    <option value="0">Lunes</option>
+                    <option value="1">Martes</option>
+                    <option value="2">Miercoles</option>
+                    <option value="3">Jueves</option>
+                    <option value="4">Viernes</option>
+                </InputSelect>
+                <label for="HoraInicio" class="col-form-label">Hora Inicio</label>
+                <InputText id="HoraInicio" class="form-control" @bind-Value="horario.HoraInicio" required />
+                <label for="HoraFin" class="col-form-label">Hora Finalizacion</label>
+                <InputText id="HoraFin" class="form-control" @bind-Value="horario.HoraFin" required />
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </EditForm>
+    <hr />
 
+</div>
+@code
+{
+    private Horario horario = new();
+
+
+
+    private async Task Save()
+    {
+        await horarioService.Add(horario);
+        StateHasChanged();
+    }
+
+}
+@*
+tabla para mostrar
+*@
+@if (horarios?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdHorario</th>
+                <th>Dia Semana</th>
+                <th>Hora de Inicio</th>
+                <th>Hora Fin</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Horario in horarios)
+            {
+                <tr>
+                    <td>@horario.IdHorario</td>
+                    @if (horario.DiaSemana.Equals(0))
+                    {
+                        <td>Lunes</td>
+                    }
+                    @if (horario.DiaSemana.Equals(1))
+                    {
+                        <td>Martes</td>
+                    }
+                    @if (horario.DiaSemana.Equals(2))
+                    {
+                        <td>Miercoles</td>
+                    }
+                    @if (horario.DiaSemana.Equals(3))
+                    {
+                        <td>Jueves</td>
+                    }
+                    @if (horario.DiaSemana.Equals(4))
+                    {
+                        <td>Viernes</td>
+                    }
+                    <td>@horario.HoraInicio</td>
+                    <td>@horario.HoraFin</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowEditForm(Horario)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(Horario.IdHorario)">Eliminar</button>
+                    </td>
+                </tr>
+            } 
+
+        </tbody>
+    </table>
+
+    <EditForm Model="@editHorario" OnValidSubmit="@SaveEditForm" OnReset="@CloseEditForm">
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="DiaSemana">DiaSemana:</label>
+            <InputDate id="DiaSemana" class="form-control" @bind-Value="editHorario.DiaSemana" />
+            <ValidationMessage For="@(() => editHorario.DiaSemana)" />
+        </div>
+
+        <div class="form-group">
+            <label for="HoraInicio">HoraInicio:</label>
+            <InputDate id="HoraInicio" class="form-control" @bind-Value="editHorario.HoraInicio" />
+            <ValidationMessage For="@(() => editHorario.HoraInicio)" />
+        </div>
+
+        <div class="form-group">
+            <label for="HoraFin">HoraFin:</label>
+            <InputDate id="HoraFin" class="form-control" @bind-Value="editHorario.HoraFin" />
+            <ValidationMessage For="@(() => editHorario.HoraFin)" />
+        </div>
+    </EditForm>
+
+}
+
+else
+{
+    <p><em>No hay Horarios registradas</em></p>
+}
+
+@code {
+    private List<Horario>? horarios;
+    private bool showEditForm = false;
+    private Horario HorarioEdit = new Horario(); // Variable para almacenar la información de la fila que se está editando
+    public Horario? editHorario;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        horarios = await GetHorarios();
+
+    }
+
+    private async Task<List<Horario>> GetHorarios()
+    {
+        return await horarioService.Get();
+    }
+
+    private async Task Delete(int id)
+    {
+        if (await JSRumtime.InvokeAsync<bool>("confirm", $"¿Estás seguro que quieres eliminar el horario")) { }
+
+        await horarioService.Delete(id);
+        await GetHorarios();
+    }
+    private void ShowEditForm(Horario horario)
+    {
+        editHorario = horario;
+        showEditForm = true;
+    }
+
+
+    private async Task SaveEditForm()
+    {
+        await horarioService.Update(HorarioEdit); // Envía una solicitud PUT al servidor para actualizar la información de la jornada académica
+        showEditForm = false; // Oculta el formulario de edición
+        await GetHorarios(); // Actualiza la lista de las jornadas académicas
+
+    }
+
+    private void CloseEditForm()
+    {
+        showEditForm = false; // Oculta el formulario de edición
+    }
 }
